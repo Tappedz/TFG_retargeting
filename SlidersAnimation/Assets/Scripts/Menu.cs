@@ -38,6 +38,7 @@ public class Menu : MonoBehaviour
         childsClon = clon.GetComponentsInChildren<Transform>();
         animation1 = maniqui.GetComponent<Animation>();
         animation2 = clon.GetComponent<Animation>();
+        animation2.enabled = false;
         firstAnim.name = "mixamo";
         firstAnim.legacy = true;
         animation1.AddClip(firstAnim, firstAnim.name);
@@ -327,10 +328,23 @@ public class Menu : MonoBehaviour
         Transform leg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
         //Debug.Log(childsData[4].coordinates[0].z);
         //Debug.Log(clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg").name);
-        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z-0.1f, childsData[4].coordinates[0].w);
+        Quaternion orRotation = new Quaternion(leg.rotation.x, leg.rotation.y, leg.rotation.z-0.1f, leg.rotation.w);
+        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z, childsData[4].coordinates[0].w);
+        leg.Rotate(orRotation.eulerAngles, Space.Self);
+        foreach (ChildCoordinates coords in childsData)
+        {
+            if (coords.nm.Equals("mixamorig:LeftUpLeg"))
+            {
+                foreach (Coordinates coord in coords.coordinates)
+                {
+                    coord.z = coord.z - 0.1f;
+                }
+            }
+        }
         //leg.Rotate(newRotation,Space.Self);
-        //leg.Rotate(newRotation.eulerAngles, Space.Self);
-        leg.rotation = Quaternion.RotateTowards(leg.rotation, newRotation.normalized, Time.deltaTime);
+        //Debug.Log(newRotation.eulerAngles);
+        //leg.rotation = Quaternion.Lerp(leg.rotation,newRotation,1);
+        //leg.rotation = Quaternion.RotateTowards(leg.rotation, newRotation.normalized, Time.deltaTime);
     }
 
     public void playCustomAnimation()
@@ -373,14 +387,14 @@ public class Menu : MonoBehaviour
                 {
                     ksX.Add(new Keyframe(chCoord.time, chCoord.x));
                     ksY.Add(new Keyframe(chCoord.time, chCoord.y));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z - 0.1f));
+                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z));
                     ksW.Add(new Keyframe(chCoord.time, chCoord.w));
                 }
                 else if (chCoords.nm.Equals("mixamorig:RightUpLeg"))
                 {
                     ksX.Add(new Keyframe(chCoord.time, chCoord.x));
                     ksY.Add(new Keyframe(chCoord.time, chCoord.y));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z + 0.1f));
+                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z));
                     ksW.Add(new Keyframe(chCoord.time, chCoord.w));
                 }
                 else
@@ -404,7 +418,8 @@ public class Menu : MonoBehaviour
             animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.w", curveW);
         }
         animModified.name = "modified";
-        animModified.legacy = true;       
+        animModified.legacy = true;
+        animation2.enabled = true;
         animation2.AddClip(animModified, animModified.name);
         animation2.clip = animModified;
         animation2.Play();

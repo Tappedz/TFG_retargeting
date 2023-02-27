@@ -115,7 +115,7 @@ MonoBehaviour:
   m_MinSize: {x: 881, y: 492}
   m_MaxSize: {x: 16006, y: 14042}
   vertical: 1
-  controlID: 14
+  controlID: 16
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 881, y: 221}
   m_MaxSize: {x: 16006, y: 4021}
   vertical: 0
-  controlID: 15
+  controlID: 17
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -421,7 +421,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d43b0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 64fbffff
       m_RenameOverlay:
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.34732524, y: -0.13797872, z: 0.051747344, w: -0.9260916}
     speed: 2
-    m_Value: {x: -0.34732586, y: -0.13797897, z: 0.051747438, w: -0.9260933}
+    m_Value: {x: -0.3473252, y: -0.1379787, z: 0.05174734, w: -0.9260916}
   m_Size:
     m_Target: 1.7749133
     speed: 2
@@ -639,19 +639,19 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: F:\Documentos\UPNa\TFG_GitHub\Repo GitHub\SlidersAnimation
+  m_LastProjectPath: F:\Documentos\UPNa\TFG_GitHub\TFG_retargeting\SlidersAnimation
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d43b0000
-    m_LastClickedID: 15316
+    m_SelectedIDs: b83b0000
+    m_LastClickedID: 15288
     m_ExpandedIDs: 00000000b83b0000ba3b0000bc3b0000be3b0000c03b0000c23b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -707,7 +707,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000f8350000be400000da410000c237000016c5ffffbe390000a83f0000ac4400004e400200963f0200ec4600000050000000000000a2880000604d01000e390000c4360000da390000423a0000863a0000163a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
