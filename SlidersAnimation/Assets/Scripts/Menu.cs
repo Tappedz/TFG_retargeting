@@ -315,9 +315,9 @@ public class Menu : MonoBehaviour
             }
             yield return new WaitForSeconds(0.05f);
         }
-        Debug.Log("fuera");
-        Debug.Log(timer);
-        Debug.Log("Lista length:" + childsData[5].coordinates.Count);
+        //Debug.Log("fuera");
+        //Debug.Log(timer);
+        //Debug.Log("Lista length:" + childsData[5].coordinates.Count);
         //maniqui.SetActive(false);
         //clon.SetActive(true);
         /*for (int i=0;i<childsData[5].coordinates.Count;i++)
@@ -363,7 +363,28 @@ public class Menu : MonoBehaviour
                 //childsData.Add(aux);
             }
         }
+        //StartCoroutine(playFrames());
     }
+
+    /*IEnumerator playFrames()
+    {
+        for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
+        {
+            foreach (ChildCoordinates coords in childsData)
+            {
+                Transform tr = clon.transform.Find(coords.path);
+                foreach (Coordinates coord in coords.coordinates)
+                {
+                    
+                }
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
+        Quaternion orRotation = new Quaternion(leg.rotation.x, leg.rotation.y, leg.rotation.z - 0.1f, leg.rotation.w);
+        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z, childsData[4].coordinates[0].w);
+        leg.Rotate(orRotation.eulerAngles, Space.Self);
+        
+    }*/
 
     private static Quaternion Change(float x, float y, float z)
     {
