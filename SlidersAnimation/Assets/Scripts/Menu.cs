@@ -326,11 +326,22 @@ public class Menu : MonoBehaviour
         }*/
         
         Transform leg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
+        Transform hips = clon.transform.Find("mixamorig:Hips");
+        Transform legleg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg");
+        Transform foot = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot");
+
         //Debug.Log(childsData[4].coordinates[0].z);
         //Debug.Log(clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg").name);
         Quaternion orRotation = new Quaternion(leg.rotation.x, leg.rotation.y, leg.rotation.z-0.1f, leg.rotation.w);
-        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z, childsData[4].coordinates[0].w);
-        leg.Rotate(orRotation.eulerAngles, Space.Self);
+        Quaternion or2Rotation = new Quaternion(hips.rotation.x, hips.rotation.y, hips.rotation.z, hips.rotation.w);
+        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z-0.1f, childsData[4].coordinates[0].w);
+        Quaternion new2Rotation = new Quaternion(childsData[3].coordinates[0].x, childsData[3].coordinates[0].y, childsData[3].coordinates[0].z, childsData[3].coordinates[0].w);
+        Quaternion new3Rotation = new Quaternion(childsData[5].coordinates[0].x, childsData[5].coordinates[5].y, childsData[5].coordinates[0].z-0.1f, childsData[5].coordinates[0].w);
+        Quaternion new4Rotation = new Quaternion(childsData[6].coordinates[0].x, childsData[6].coordinates[6].y, childsData[6].coordinates[0].z-0.1f, childsData[6].coordinates[0].w);
+        leg.Rotate(newRotation.eulerAngles, Space.Self);
+        hips.Rotate(new2Rotation.eulerAngles, Space.Self);
+        legleg.Rotate(new3Rotation.eulerAngles, Space.Self);
+        foot.Rotate(new4Rotation.eulerAngles, Space.Self);
         foreach (ChildCoordinates coords in childsData)
         {
             if (coords.nm.Equals("mixamorig:LeftUpLeg"))
