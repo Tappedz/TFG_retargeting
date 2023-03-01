@@ -28,9 +28,13 @@ public class Menu : MonoBehaviour
     public Slider yRotationSlider;
     public Slider zRotationSlider;
 
+    public Slider legsSlider;
+    public Button button;
+
     public float xLimit = 45f;
     public float yLimit = 45f;
     public float zLimit = 45f;
+    Boolean animationRecorded = false;
 
     public void Start()
     {
@@ -44,6 +48,31 @@ public class Menu : MonoBehaviour
         animation1.AddClip(firstAnim, firstAnim.name);
         animation1.clip = firstAnim;
         timer = 0f;
+
+        legsSlider.value = 0;
+        legsSlider.minValue = -0.1f;
+        legsSlider.maxValue = 0.1f;
+
+        button.onClick.AddListener(delegate{
+            foreach (ChildCoordinates coords in childsData)
+            {
+                if (coords.nm.Equals("mixamorig:LeftUpLeg"))
+                {
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        coord.z = coord.z - legsSlider.value;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:RightUpLeg"))
+                {
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        coord.z = coord.z + legsSlider.value;
+                    }
+                }
+            }
+            saveAnimation();
+        });
         //clon.SetActive(false);
         //captureAnimation();
     }
@@ -58,7 +87,8 @@ public class Menu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             Debug.Log("animacion en clon");
-            saveAnimation();
+            animation2.Play();
+            
         }
     }
 
@@ -66,7 +96,15 @@ public class Menu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            captureAnimation();
+            if (!animationRecorded)
+            {
+                captureAnimation();
+                 
+            }
+            else
+            {
+                playAnimation();
+            }
         }
     }
 
@@ -275,8 +313,7 @@ public class Menu : MonoBehaviour
             childsData.Add(chCoord);
         }
         playAnimation();
-        StartCoroutine(captureFrames());
-        
+        StartCoroutine(captureFrames());  
     }
 
     String getPath(Transform tr)
@@ -294,6 +331,7 @@ public class Menu : MonoBehaviour
     IEnumerator captureFrames()
     {
         //meter Time.deltaTime (referencia al tiempo real de ejecucion) --> ya esta con coroutine
+        Debug.Log("firstAnim.length en capture: "+firstAnim.length);
         for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
         {
             int j = 0;
@@ -310,20 +348,15 @@ public class Menu : MonoBehaviour
                     Debug.Log("Frame 0.2f: x="+ aux.x +", y="+ aux.y +", z="+ aux.z);
                 }*/
                 childsData[j].coordinates.Add(aux);
-                //Debug.Log("Nombres: " + aux.nm);
                 j++;
             }
             yield return new WaitForSeconds(0.05f);
         }
+        saveAnimation();
+        animationRecorded = true;
         //Debug.Log("fuera");
         //Debug.Log(timer);
-        //Debug.Log("Lista length:" + childsData[5].coordinates.Count);
-        //maniqui.SetActive(false);
-        //clon.SetActive(true);
-        /*for (int i=0;i<childsData[5].coordinates.Count;i++)
-        {
-            Debug.Log("Datos: "+ childsData[5].coordinates[i].ToString());
-        }*/
+        //Debug.Log("Lista length:" + childsData[20].coordinates.Count);
         /*
         Transform leg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
         Transform hips = clon.transform.Find("mixamorig:Hips");
@@ -357,35 +390,37 @@ public class Menu : MonoBehaviour
         //leg.Rotate(newRotation,Space.Self);
         //Debug.Log(newRotation.eulerAngles);
         //leg.rotation = Quaternion.Lerp(leg.rotation,newRotation,1);
-        //leg.rotation = Quaternion.RotateTowards(leg.rotation, newRotation.normalized, Time.deltaTime);
+        //leg.rotation = Quaternion.RotateTowards(leg.rotation, newRotation.normalized, Time.deltaTime);  
     }
 
     public void playCustomAnimation()
     {
+        /*
+        int i = 0;
         foreach(Transform child in childsClon)
         {
-            Debug.Log(child.transform.name);
+            Debug.Log("En objeto:  "+child.transform.name);
+            Debug.Log("En array de datos:  "+childsData[i].nm);
+            i++;
         }
-        foreach(ChildCoordinates chCoord in childsData)
-        {
-            Debug.Log(chCoord.nm);
-        }
+        */
         StartCoroutine(playFrames());
     }
 
     IEnumerator playFrames()
     {
+        /*
         int i = 0;
-        for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
+        for (timer = 0f; timer < 0.05f; timer += 0.05f)
         {
             int j = 0;
             foreach (Transform child in childsClon)
             {
-                /*if(childsData[j].nm.Equals("mixamorig:LeftHand"))
+                if (i == 0)
                 {
-                    Debug.Log("Frame 0.2f: x="+ aux.x +", y="+ aux.y +", z="+ aux.z);
-                }*/
-                //Debug.Log("Nombres: " + aux.nm);
+                    Debug.Log("En objeto:  " + child.name);
+                    Debug.Log("En array de datos:  " + childsData[j].nm);
+                }
                 Quaternion newRotation = new Quaternion(childsData[j].coordinates[i].x, childsData[j].coordinates[i].y, childsData[j].coordinates[i].z, childsData[j].coordinates[i].w);
                 child.Rotate(newRotation.eulerAngles, Space.Self);
                 child.rotation = newRotation;
@@ -393,7 +428,24 @@ public class Menu : MonoBehaviour
             }
             i++;
             yield return new WaitForSeconds(0.05f);
-        }     
+        }  
+        */
+        int i = 0;
+        Debug.Log("firstAnim.length en play: " + firstAnim.length);
+        for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
+        {
+            foreach (ChildCoordinates chCoord in childsData)
+            {  
+                Transform child = clon.transform.Find(chCoord.path);
+                Quaternion newRotation = new Quaternion(chCoord.coordinates[i].x, chCoord.coordinates[i].y, chCoord.coordinates[i].z, chCoord.coordinates[i].w);
+                //Debug.Log(newRotation.eulerAngles);
+                child.Rotate(newRotation.eulerAngles, Space.Self);
+                child.localRotation = newRotation;
+            }
+            i++;
+            yield return new WaitForSeconds(0.05f);
+        }
+        Debug.Log("Veces: "+i);
     }
 
     private static Quaternion Change(float x, float y, float z)
@@ -453,6 +505,6 @@ public class Menu : MonoBehaviour
         animation2.enabled = true;
         animation2.AddClip(animModified, animModified.name);
         animation2.clip = animModified;
-        animation2.Play();
+        //AssetDatabase.CreateAsset(animation2, "3DModels/animModified.anim");
     }
 }
