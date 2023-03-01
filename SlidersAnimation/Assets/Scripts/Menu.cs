@@ -324,7 +324,7 @@ public class Menu : MonoBehaviour
         {
             Debug.Log("Datos: "+ childsData[5].coordinates[i].ToString());
         }*/
-        
+        /*
         Transform leg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
         Transform hips = clon.transform.Find("mixamorig:Hips");
         Transform legleg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg");
@@ -332,6 +332,7 @@ public class Menu : MonoBehaviour
 
         //Debug.Log(childsData[4].coordinates[0].z);
         //Debug.Log(clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg").name);
+        
         Quaternion orRotation = new Quaternion(leg.rotation.x, leg.rotation.y, leg.rotation.z-0.1f, leg.rotation.w);
         Quaternion or2Rotation = new Quaternion(hips.rotation.x, hips.rotation.y, hips.rotation.z, hips.rotation.w);
         Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z-0.1f, childsData[4].coordinates[0].w);
@@ -352,6 +353,7 @@ public class Menu : MonoBehaviour
                 }
             }
         }
+        */
         //leg.Rotate(newRotation,Space.Self);
         //Debug.Log(newRotation.eulerAngles);
         //leg.rotation = Quaternion.Lerp(leg.rotation,newRotation,1);
@@ -360,42 +362,39 @@ public class Menu : MonoBehaviour
 
     public void playCustomAnimation()
     {
-        timer = 0f;
-        float rotateSpeed = 20f;
-        for (int i = 0; i < childsData.Count; i++)
+        foreach(Transform child in childsClon)
         {
-            for (int j = 0; j < childsData[i].coordinates.Count; j++)
-            {
-                Quaternion aux = childsClon[j].rotation;
-                Quaternion target = Change(childsData[i].coordinates[j].x, childsData[i].coordinates[j].y, childsData[i].coordinates[j].z);
-                childsClon[j].rotation = Quaternion.RotateTowards(aux, target, rotateSpeed*Time.deltaTime);
-                timer += Time.deltaTime * 0.05f;
-                //aux.time = timer;
-                //childsData.Add(aux);
-            }
+            Debug.Log(child.transform.name);
         }
-        //StartCoroutine(playFrames());
+        foreach(ChildCoordinates chCoord in childsData)
+        {
+            Debug.Log(chCoord.nm);
+        }
+        StartCoroutine(playFrames());
     }
 
-    /*IEnumerator playFrames()
+    IEnumerator playFrames()
     {
+        int i = 0;
         for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
         {
-            foreach (ChildCoordinates coords in childsData)
+            int j = 0;
+            foreach (Transform child in childsClon)
             {
-                Transform tr = clon.transform.Find(coords.path);
-                foreach (Coordinates coord in coords.coordinates)
+                /*if(childsData[j].nm.Equals("mixamorig:LeftHand"))
                 {
-                    
-                }
+                    Debug.Log("Frame 0.2f: x="+ aux.x +", y="+ aux.y +", z="+ aux.z);
+                }*/
+                //Debug.Log("Nombres: " + aux.nm);
+                Quaternion newRotation = new Quaternion(childsData[j].coordinates[i].x, childsData[j].coordinates[i].y, childsData[j].coordinates[i].z, childsData[j].coordinates[i].w);
+                child.Rotate(newRotation.eulerAngles, Space.Self);
+                child.rotation = newRotation;
+                j++;
             }
+            i++;
             yield return new WaitForSeconds(0.05f);
-        }
-        Quaternion orRotation = new Quaternion(leg.rotation.x, leg.rotation.y, leg.rotation.z - 0.1f, leg.rotation.w);
-        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z, childsData[4].coordinates[0].w);
-        leg.Rotate(orRotation.eulerAngles, Space.Self);
-        
-    }*/
+        }     
+    }
 
     private static Quaternion Change(float x, float y, float z)
     {
