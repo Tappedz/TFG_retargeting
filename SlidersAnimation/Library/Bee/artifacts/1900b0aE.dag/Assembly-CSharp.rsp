@@ -364,6 +364,7 @@
 "Assets/ImportedAssets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs"
 "Assets/ImportedAssets/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs"
 "Assets/ImportedAssets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
+"Assets/Scripts/CameraMovement.cs"
 "Assets/Scripts/ChildCoordinates.cs"
 "Assets/Scripts/Coordinates.cs"
 "Assets/Scripts/Menu.cs"
