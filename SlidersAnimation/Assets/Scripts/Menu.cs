@@ -29,6 +29,7 @@ public class Menu : MonoBehaviour
     public Slider zRotationSlider;
 
     public Slider legsSlider;
+    public Slider armsSlider;
     public Button button;
 
     public float xLimit = 45f;
@@ -53,6 +54,10 @@ public class Menu : MonoBehaviour
         legsSlider.minValue = -0.1f;
         legsSlider.maxValue = 0.1f;
 
+        armsSlider.value = 0;
+        armsSlider.minValue = -0.1f;
+        armsSlider.maxValue = 0.1f;
+
         button.onClick.AddListener(delegate{
             foreach (ChildCoordinates coords in childsData)
             {
@@ -60,6 +65,16 @@ public class Menu : MonoBehaviour
                 {
                     foreach (Coordinates coord in coords.coordinates)
                     {
+                        /*
+                        Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
+                        Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        coord.x = changeQuat.x;
+                        coord.y = changeQuat.y;
+                        coord.z = changeQuat.z;
+                        coord.w = changeQuat.w;
+                        */
+
                         coord.z = coord.z - legsSlider.value;
                     }
                 }
@@ -67,7 +82,75 @@ public class Menu : MonoBehaviour
                 {
                     foreach (Coordinates coord in coords.coordinates)
                     {
+                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + legsSlider.value * 100);
+                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        //coord.x = changeQuat.x;
+                        //coord.y = changeQuat.y;
+                        //coord.z = changeQuat.z;
+                        //coord.w = changeQuat.w;
+
                         coord.z = coord.z + legsSlider.value;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:LeftForeArm"))
+                {
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
+                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        //coord.x = changeQuat.x;
+                        //coord.y = changeQuat.y;
+                        //coord.z = changeQuat.z;
+                        //coord.w = changeQuat.w;
+
+                        coord.z = coord.z - armsSlider.value;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:RightForeArm"))
+                {
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + armsSlider.value * 100);
+                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        //coord.x = changeQuat.x;
+                        //coord.y = changeQuat.y;
+                        //coord.z = changeQuat.z;
+                        //coord.w = changeQuat.w;
+
+                        coord.z = coord.z + armsSlider.value;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:LeftArm"))
+                {
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
+                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        //coord.x = changeQuat.x;
+                        //coord.y = changeQuat.y;
+                        //coord.z = changeQuat.z;
+                        //coord.w = changeQuat.w;
+
+                        coord.z = coord.z - armsSlider.value;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:RightArm"))
+                {
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + armsSlider.value * 100);
+                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        //coord.x = changeQuat.x;
+                        //coord.y = changeQuat.y;
+                        //coord.z = changeQuat.z;
+                        //coord.w = changeQuat.w;
+
+                        coord.z = coord.z + armsSlider.value;
                     }
                 }
             }
@@ -331,7 +414,7 @@ public class Menu : MonoBehaviour
     IEnumerator captureFrames()
     {
         //meter Time.deltaTime (referencia al tiempo real de ejecucion) --> ya esta con coroutine
-        Debug.Log("firstAnim.length en capture: "+firstAnim.length);
+        //Debug.Log("firstAnim.length en capture: "+firstAnim.length);
         for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
         {
             int j = 0;
@@ -354,7 +437,7 @@ public class Menu : MonoBehaviour
         }
         saveAnimation();
         animationRecorded = true;
-        //Debug.Log("fuera");
+        Debug.Log("Animacion grabada sobre maniqui objetivo");
         //Debug.Log(timer);
         //Debug.Log("Lista length:" + childsData[20].coordinates.Count);
         /*
@@ -431,7 +514,7 @@ public class Menu : MonoBehaviour
         }  
         */
         int i = 0;
-        Debug.Log("firstAnim.length en play: " + firstAnim.length);
+        //Debug.Log("firstAnim.length en play: " + firstAnim.length);
         for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
         {
             foreach (ChildCoordinates chCoord in childsData)
@@ -445,7 +528,7 @@ public class Menu : MonoBehaviour
             i++;
             yield return new WaitForSeconds(0.05f);
         }
-        Debug.Log("Veces: "+i);
+        //Debug.Log("Veces: "+i);
     }
 
     private static Quaternion Change(float x, float y, float z)
