@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="width: 100%; height: 100%; flex-direction: column; align-items: stretch; justify-content: flex-end;">
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1; flex-shrink: 0; justify-content: flex-start;">
+            <ui:VisualElement style="justify-content: space-between; width: 25%; height: 20%; align-items: flex-start; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px;">
+                <ui:Label text="U - Capture Animation" display-tooltip-when-elided="true" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-right: 0; padding-left: 0;" />
+                <ui:Label text="Y - Play recorded animation" display-tooltip-when-elided="true" style="padding-left: 1px; padding-right: 0; margin-left: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="width: 100%; height: 25%; background-color: rgba(130, 103, 84, 0.44); padding-left: 10px; padding-right: 10px; padding-top: 0; padding-bottom: 0;">
+            <ui:VisualElement style="width: 100%; height: 25%; align-items: center; justify-content: center; margin-bottom: 0;">
+                <ui:Label text="Modifiers" display-tooltip-when-elided="true" enable-rich-text="true" style="align-items: center; -unity-font-style: bold; font-size: 18px; -unity-text-align: upper-center; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; justify-content: center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="background-color: rgb(0, 0, 0); width: 100%; height: 2px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+            <ui:VisualElement style="width: 100%; height: 100%; justify-content: flex-end; flex-direction: row; background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgba(255, 255, 255, 0);">
+                <ui:VisualElement style="background-color: rgba(255, 255, 255, 0); width: 50%; height: 100%; align-items: flex-start; justify-content: space-around; -unity-background-image-tint-color: rgb(133, 133, 133);">
+                    <ui:Slider picking-mode="Ignore" label="Arms Distance" value="0" high-value="0.1" low-value="-0.1" style="width: 100%; height: auto;" />
+                    <ui:Slider picking-mode="Ignore" label="Legs Distance" value="0" high-value="0.1" low-value="-0.1" style="width: 100%;" />
+                    <ui:Slider picking-mode="Ignore" label="Stand Curvature" value="0" high-value="0.1" low-value="-0.1" style="width: 100%;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="width: 50%; height: 100%; justify-content: center; align-items: center; flex-direction: row;">
+                    <ui:Button text="Button" display-tooltip-when-elided="true" />
+                    <ui:Button text="Button" display-tooltip-when-elided="true" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

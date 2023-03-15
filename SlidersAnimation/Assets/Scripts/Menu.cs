@@ -75,7 +75,7 @@ public class Menu : MonoBehaviour
                         coord.w = changeQuat.w;
                         */
 
-                        coord.z = coord.z - legsSlider.value;
+                        coord.rotZ = coord.rotZ - legsSlider.value;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:RightUpLeg"))
@@ -90,7 +90,7 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.z = coord.z + legsSlider.value;
+                        coord.rotZ = coord.rotZ + legsSlider.value;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:LeftForeArm"))
@@ -105,7 +105,7 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.z = coord.z - armsSlider.value;
+                        coord.rotZ = coord.rotZ - armsSlider.value;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:RightForeArm"))
@@ -120,7 +120,7 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.z = coord.z + armsSlider.value;
+                        coord.rotZ = coord.rotZ + armsSlider.value;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:LeftArm"))
@@ -135,7 +135,7 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.z = coord.z - armsSlider.value;
+                        coord.rotZ = coord.rotZ - armsSlider.value;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:RightArm"))
@@ -150,7 +150,7 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.z = coord.z + armsSlider.value;
+                        coord.rotZ = coord.rotZ + armsSlider.value;
                     }
                 }
             }
@@ -396,6 +396,7 @@ public class Menu : MonoBehaviour
             childsData.Add(chCoord);
         }
         playAnimation();
+        Debug.Log("Comienza grabacion");
         StartCoroutine(captureFrames());  
     }
 
@@ -421,11 +422,17 @@ public class Menu : MonoBehaviour
             foreach (Transform child in childsManiqui)
             {
                 Coordinates aux = new Coordinates();
-                aux.x = child.localRotation.x;
-                aux.y = child.localRotation.y;
-                aux.z = child.localRotation.z;
-                aux.w = child.localRotation.w;
+                aux.rotX = child.localRotation.x;
+                aux.rotY = child.localRotation.y;
+                aux.rotZ = child.localRotation.z;
+                aux.rotW = child.localRotation.w;
                 aux.time = timer;
+                if (child.name.Equals("mixamorig:Hips"))
+                {
+                    aux.posX = child.localPosition.x;
+                    aux.posY = child.localPosition.y;
+                    aux.posZ = child.localPosition.z;
+                }
                 /*if(childsData[j].nm.Equals("mixamorig:LeftHand"))
                 {
                     Debug.Log("Frame 0.2f: x="+ aux.x +", y="+ aux.y +", z="+ aux.z);
@@ -520,10 +527,15 @@ public class Menu : MonoBehaviour
             foreach (ChildCoordinates chCoord in childsData)
             {  
                 Transform child = clon.transform.Find(chCoord.path);
-                Quaternion newRotation = new Quaternion(chCoord.coordinates[i].x, chCoord.coordinates[i].y, chCoord.coordinates[i].z, chCoord.coordinates[i].w);
+                Quaternion newRotation = new Quaternion(chCoord.coordinates[i].rotX, chCoord.coordinates[i].rotY, chCoord.coordinates[i].rotZ, chCoord.coordinates[i].rotW);
                 //Debug.Log(newRotation.eulerAngles);
                 child.Rotate(newRotation.eulerAngles, Space.Self);
                 child.localRotation = newRotation;
+                if (chCoord.nm.Equals("mixamorig:Hips"))
+                {
+                    child.Translate(new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY, chCoord.coordinates[i].posZ), Space.Self);
+                    child.localPosition = new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY, chCoord.coordinates[i].posZ);
+                }
             }
             i++;
             yield return new WaitForSeconds(0.05f);
@@ -543,45 +555,70 @@ public class Menu : MonoBehaviour
         animModified = new AnimationClip();
         foreach (ChildCoordinates chCoords in childsData)
         {
-            List<Keyframe> ksX = new List<Keyframe>();
-            List<Keyframe> ksY = new List<Keyframe>();
-            List<Keyframe> ksZ = new List<Keyframe>();
-            List<Keyframe> ksW = new List<Keyframe>();
-            foreach (Coordinates chCoord in chCoords.coordinates)
+            if (chCoords.nm.Equals("mixamorig:Hips"))
             {
-                if (chCoords.nm.Equals("mixamorig:LeftUpLeg"))
+                List<Keyframe> ksX = new List<Keyframe>();
+                List<Keyframe> ksY = new List<Keyframe>();
+                List<Keyframe> ksZ = new List<Keyframe>();
+                List<Keyframe> ksW = new List<Keyframe>();
+                List<Keyframe> ksPosX = new List<Keyframe>();
+                List<Keyframe> ksPosY = new List<Keyframe>();
+                List<Keyframe> ksPosZ = new List<Keyframe>();
+                foreach (Coordinates chCoord in chCoords.coordinates)
                 {
-                    ksX.Add(new Keyframe(chCoord.time, chCoord.x));
-                    ksY.Add(new Keyframe(chCoord.time, chCoord.y));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z));
-                    ksW.Add(new Keyframe(chCoord.time, chCoord.w));
+                    ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
+                    ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
+                    ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
+                    ksW.Add(new Keyframe(chCoord.time, chCoord.rotW));
+                    ksPosX.Add(new Keyframe(chCoord.time, chCoord.posX));
+                    ksPosY.Add(new Keyframe(chCoord.time, chCoord.posY));
+                    ksPosZ.Add(new Keyframe(chCoord.time, chCoord.posZ));
+
+                    //cambiar implementacion --> childcoordinates contiene listas de coordenadas, de forma que tengo todas las coordenadas de la animacion de un objeto en la misma clase 
+                    //ya esta cambiado
                 }
-                else if (chCoords.nm.Equals("mixamorig:RightUpLeg"))
-                {
-                    ksX.Add(new Keyframe(chCoord.time, chCoord.x));
-                    ksY.Add(new Keyframe(chCoord.time, chCoord.y));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z));
-                    ksW.Add(new Keyframe(chCoord.time, chCoord.w));
-                }
-                else
-                {
-                    ksX.Add(new Keyframe(chCoord.time, chCoord.x));
-                    ksY.Add(new Keyframe(chCoord.time, chCoord.y));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.z));
-                    ksW.Add(new Keyframe(chCoord.time, chCoord.w));
-                }
-                //cambiar implementacion --> childcoordinates contiene listas de coordenadas, de forma que tengo todas las coordenadas de la animacion de un objeto en la misma clase 
-                //ya esta cambiado
+                AnimationCurve curveX = new AnimationCurve(ksX.ToArray());
+                AnimationCurve curveY = new AnimationCurve(ksY.ToArray());
+                AnimationCurve curveZ = new AnimationCurve(ksZ.ToArray());
+                AnimationCurve curveW = new AnimationCurve(ksW.ToArray());
+                AnimationCurve curvePosX = new AnimationCurve(ksPosX.ToArray());
+                AnimationCurve curvePosY = new AnimationCurve(ksPosY.ToArray());
+                AnimationCurve curvePosZ = new AnimationCurve(ksPosZ.ToArray());
+                //Debug.Log(chCoords.path + "," + chCoords.nm);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.x", curveX);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.y", curveY);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.z", curveZ);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.w", curveW);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localPosition.x", curvePosX);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localPosition.y", curvePosY);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localPosition.z", curvePosZ);
             }
-            AnimationCurve curveX = new AnimationCurve(ksX.ToArray());
-            AnimationCurve curveY = new AnimationCurve(ksY.ToArray());
-            AnimationCurve curveZ = new AnimationCurve(ksZ.ToArray());
-            AnimationCurve curveW = new AnimationCurve(ksW.ToArray());
-            //Debug.Log(chCoords.path + "," + chCoords.nm);
-            animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.x", curveX);
-            animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.y", curveY);
-            animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.z", curveZ);
-            animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.w", curveW);
+            else
+            {
+                List<Keyframe> ksX = new List<Keyframe>();
+                List<Keyframe> ksY = new List<Keyframe>();
+                List<Keyframe> ksZ = new List<Keyframe>();
+                List<Keyframe> ksW = new List<Keyframe>();
+                foreach (Coordinates chCoord in chCoords.coordinates)
+                {
+                    ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
+                    ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
+                    ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
+                    ksW.Add(new Keyframe(chCoord.time, chCoord.rotW));
+
+                    //cambiar implementacion --> childcoordinates contiene listas de coordenadas, de forma que tengo todas las coordenadas de la animacion de un objeto en la misma clase 
+                    //ya esta cambiado
+                }
+                AnimationCurve curveX = new AnimationCurve(ksX.ToArray());
+                AnimationCurve curveY = new AnimationCurve(ksY.ToArray());
+                AnimationCurve curveZ = new AnimationCurve(ksZ.ToArray());
+                AnimationCurve curveW = new AnimationCurve(ksW.ToArray());
+                //Debug.Log(chCoords.path + "," + chCoords.nm);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.x", curveX);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.y", curveY);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.z", curveZ);
+                animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.w", curveW);
+            } 
         }
         animModified.name = "modified";
         animModified.legacy = true;

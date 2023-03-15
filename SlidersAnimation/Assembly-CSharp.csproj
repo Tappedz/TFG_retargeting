@@ -99,8 +99,10 @@
   <ItemGroup>
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\UI\Menu.uxml" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
+    <None Include="Assets\UI\MenuStyle.uss" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
@@ -119,6 +121,7 @@
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\UI\Menuu.uxml" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
   </ItemGroup>
