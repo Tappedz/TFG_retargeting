@@ -23,7 +23,16 @@ public class Coordinates : MonoBehaviour
         this.rotY = 0f;
         this.rotZ = 0f;
         this.rotW = 0f;
-}
+    }
+
+    public Coordinates(Coordinates obj)
+    {
+        this.time = obj.time;
+        this.rotX = obj.rotX;
+        this.rotY = obj.rotY;
+        this.rotZ = obj.rotZ;
+        this.rotW = obj.rotW;
+    }
     override
     public string ToString()
     {

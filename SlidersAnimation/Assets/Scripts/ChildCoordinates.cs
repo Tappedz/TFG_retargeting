@@ -15,4 +15,15 @@ public class ChildCoordinates : MonoBehaviour
         this.nm = "";
         this.coordinates = new List<Coordinates>();
     }
+
+    public ChildCoordinates(ChildCoordinates obj)
+    {
+        this.path = obj.path;
+        this.nm = obj.nm;
+        this.coordinates = new List<Coordinates>();
+        foreach (Coordinates coord in obj.coordinates)
+        {
+            this.coordinates.Add(new Coordinates(coord));
+        }
+    }
 }

@@ -367,6 +367,7 @@
 "Assets/Scripts/CameraMovement.cs"
 "Assets/Scripts/ChildCoordinates.cs"
 "Assets/Scripts/Coordinates.cs"
+"Assets/Scripts/CustomSlider.cs"
 "Assets/Scripts/Menu.cs"
 "Assets/Scripts/PlayerController.cs"
 -langversion:9.0

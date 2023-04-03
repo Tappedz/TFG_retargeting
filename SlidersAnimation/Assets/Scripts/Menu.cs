@@ -11,9 +11,6 @@ public class Menu : MonoBehaviour
     float timer = 0f;
     public AnimationClip firstAnim;
     public GameObject mainMenu;
-    public GameObject slidersMenu;
-    public GameObject armsMenu;
-    public GameObject legsMenu;
 
     public GameObject maniqui;
     public GameObject clon;
@@ -23,19 +20,15 @@ public class Menu : MonoBehaviour
     AnimationClip animModified;
     
     List<ChildCoordinates> childsData = new List<ChildCoordinates>();
+    List<ChildCoordinates> childsDataCopy;
 
-    public Slider xRotationSlider;
-    public Slider yRotationSlider;
-    public Slider zRotationSlider;
 
     public Slider legsSlider;
     public Slider armsSlider;
-    public Button button;
+    //CustomSlider legsSliderCustomListener = new CustomSlider();
+    //CustomSlider armsSliderCustomListener = new CustomSlider();
 
-    public float xLimit = 45f;
-    public float yLimit = 45f;
-    public float zLimit = 45f;
-    Boolean animationRecorded = false;
+    bool animationRecorded = false;
 
     public void Start()
     {
@@ -50,6 +43,9 @@ public class Menu : MonoBehaviour
         animation1.clip = firstAnim;
         timer = 0f;
 
+        //legsSliderCustomListener.slider = legsSlider;
+        //armsSliderCustomListener.slider = armsSlider;
+
         legsSlider.value = 0;
         legsSlider.minValue = -0.1f;
         legsSlider.maxValue = 0.1f;
@@ -58,11 +54,15 @@ public class Menu : MonoBehaviour
         armsSlider.minValue = -0.1f;
         armsSlider.maxValue = 0.1f;
 
-        button.onClick.AddListener(delegate{
+        legsSlider.onValueChanged.AddListener(delegate
+        {
+        int dataCount = 0;
             foreach (ChildCoordinates coords in childsData)
             {
+                int coordCount;
                 if (coords.nm.Equals("mixamorig:LeftUpLeg"))
                 {
+                    coordCount = 0;
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         /*
@@ -74,12 +74,13 @@ public class Menu : MonoBehaviour
                         coord.z = changeQuat.z;
                         coord.w = changeQuat.w;
                         */
-
-                        coord.rotZ = coord.rotZ - legsSlider.value;
+                        coord.rotZ = childsDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value;
+                        coordCount++;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:RightUpLeg"))
                 {
+                    coordCount = 0;
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
@@ -90,26 +91,41 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = coord.rotZ + legsSlider.value;
+                        coord.rotZ = childsDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value;
+                        coordCount++;
                     }
                 }
+                dataCount++;
+            }
+            saveAnimation();
+        });
+
+        armsSlider.onValueChanged.AddListener(delegate
+        {
+            int dataCount = 0;
+            foreach (ChildCoordinates coords in childsData)
+            {
+                int coordCount;
                 if (coords.nm.Equals("mixamorig:LeftForeArm"))
                 {
-                    foreach (Coordinates coord in coords.coordinates)
-                    {
-                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
-                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
-                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
-                        //coord.x = changeQuat.x;
-                        //coord.y = changeQuat.y;
-                        //coord.z = changeQuat.z;
-                        //coord.w = changeQuat.w;
+                coordCount = 0;
+                foreach (Coordinates coord in coords.coordinates)
+                {
+                    //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                    //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
+                    //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                    //coord.x = changeQuat.x;
+                    //coord.y = changeQuat.y;
+                    //coord.z = changeQuat.z;
+                    //coord.w = changeQuat.w;
 
-                        coord.rotZ = coord.rotZ - armsSlider.value;
-                    }
+                    coord.rotZ = childsDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
+                    coordCount++;
+                }
                 }
                 if (coords.nm.Equals("mixamorig:RightForeArm"))
                 {
+                    coordCount = 0;
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
@@ -120,11 +136,13 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = coord.rotZ + armsSlider.value;
+                        coord.rotZ = childsDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        coordCount++;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:LeftArm"))
                 {
+                    coordCount = 0;
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
@@ -135,11 +153,13 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = coord.rotZ - armsSlider.value;
+                        coord.rotZ = childsDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
+                        coordCount++;
                     }
                 }
                 if (coords.nm.Equals("mixamorig:RightArm"))
                 {
+                    coordCount = 0;
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
@@ -150,9 +170,11 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = coord.rotZ + armsSlider.value;
+                        coord.rotZ = childsDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        coordCount++;
                     }
                 }
+                dataCount++;
             }
             saveAnimation();
         });
@@ -189,180 +211,6 @@ public class Menu : MonoBehaviour
                 playAnimation();
             }
         }
-    }
-
-    //Metodos para activar el menu para la zona del cuerpo seleccionada
-    public void displayHeadMenu()
-    {
-        mainMenu.SetActive(false);
-        slidersMenu.SetActive(true);
-    }
-
-    public void displayArmsMenu()
-    {
-        mainMenu.SetActive(false);
-        armsMenu.SetActive(true);
-    }
-
-    public void displayLegsMenu()
-    {
-        mainMenu.SetActive(false);
-        legsMenu.SetActive(true);
-    }
-
-
-    //Metodos para mostrar los sliders de la zona escogida
-    //Brazos
-    //Brazo derecho
-    public void displaySlidersRightArm()
-    {
-        armsMenu.SetActive(false);
-        transformInUse = childsManiqui[47];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Antebrazo derecho
-    public void displaySlidersRightForearm()
-    {
-        armsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[48];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Brazo izquierdo
-    public void displaySlidersLeftArm()
-    {
-        armsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[18];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Antebrazo izquierdo
-    public void displaySlidersLeftForearm()
-    {
-        armsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[19];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Piernas
-    //Pierna derecha
-    public void displaySlidersRightLeg()
-    {
-        legsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[9];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Gemelo derecho
-    public void displaySlidersRightCalf()
-    {
-        legsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[10];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Pierna izquierda
-    public void displaySlidersLeftLeg()
-    {
-        legsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[4];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-    //Gemelo izquierdo
-    public void displaySlidersLeftCalf()
-    {
-        legsMenu.SetActive(false);
-
-        transformInUse = childsManiqui[5];
-        setSliders(transformInUse);
-        slidersMenu.SetActive(true);
-    }
-
-
-    //Preparamos los sliders
-    public void setSliders(Transform bodyPartTr)
-    {
-        //Slider xRotationSlider = slidersMenu.transform.Find("XRotation").GetComponent<Slider>();
-        //Slider yRotationSlider = slidersMenu.transform.Find("YRotation").GetComponent<Slider>();
-        //Slider zRotationSlider = slidersMenu.transform.Find("ZRotation").GetComponent<Slider>();
-        //xRotation
-        xRotationSlider.value = bodyPartTr.transform.rotation.x;
-        xRotationSlider.minValue = bodyPartTr.transform.rotation.x - xLimit; ;
-        xRotationSlider.maxValue = bodyPartTr.transform.rotation.x + xLimit; ;
-        //yRotation
-        yRotationSlider.value = bodyPartTr.transform.rotation.y;
-        yRotationSlider.minValue = bodyPartTr.transform.rotation.y - yLimit; ;
-        yRotationSlider.maxValue = bodyPartTr.transform.rotation.y + yLimit; ;
-        //zRotation
-        zRotationSlider.value = bodyPartTr.transform.rotation.z;
-        zRotationSlider.minValue = bodyPartTr.transform.rotation.z - zLimit;
-        zRotationSlider.maxValue = bodyPartTr.transform.rotation.z + zLimit;
-
-        xRotationSlider.onValueChanged.AddListener(delegate
-        {
-            setRotation(bodyPartTr, 1);
-        });
-        yRotationSlider.onValueChanged.AddListener(delegate
-        {
-            setRotation(bodyPartTr, 2);
-        });
-        zRotationSlider.onValueChanged.AddListener(delegate
-        {
-            setRotation(bodyPartTr, 3);
-        });
-    }
-
-    //Manejamos la rotacion
-    public void setRotation(Transform tr, int axis)
-    {
-        if(axis == 1) //EJE X
-        {
-            Quaternion initRotation = tr.transform.rotation;
-            Quaternion newRotation = new Quaternion(xRotationSlider.value, tr.rotation.y,  tr.rotation.z, 1);
-            tr.rotation = Quaternion.Slerp(initRotation, newRotation, 1);
-        }
-        else if(axis == 2) //EJE Y
-        {
-            Debug.Log(yRotationSlider.value);
-            tr.localEulerAngles = new Vector3(tr.rotation.x, yRotationSlider.value, tr.rotation.z);
-        }
-        else if(axis == 3) //EJE Z
-        {
-            tr.localEulerAngles = new Vector3(tr.rotation.x, tr.rotation.y, zRotationSlider.value);
-        }
-        else
-        {
-            Debug.Log("Eje introducido incorrecto");
-        }
-    }
-
-    public void resetSliders()
-    {
-        xRotationSlider.onValueChanged.RemoveAllListeners();
-        yRotationSlider.onValueChanged.RemoveAllListeners();
-        zRotationSlider.onValueChanged.RemoveAllListeners();
-    }
-
-    public void pauseAnimation()
-    {
-        animation1.Stop();
-        setSliders(transformInUse);
-        //leftArm.transform.rotation = Quaternion.Euler(0, 5, 0);
     }
 
     public void playAnimation()
@@ -442,6 +290,7 @@ public class Menu : MonoBehaviour
             }
             yield return new WaitForSeconds(0.05f);
         }
+        childsDataCopy = childsData.ConvertAll(x => new ChildCoordinates(x));
         saveAnimation();
         animationRecorded = true;
         Debug.Log("Animacion grabada sobre maniqui objetivo");
@@ -541,13 +390,6 @@ public class Menu : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         //Debug.Log("Veces: "+i);
-    }
-
-    private static Quaternion Change(float x, float y, float z)
-    {
-        Quaternion newQuaternion = Quaternion.Euler(x,y,z);
-        //Return the new Quaternion
-        return newQuaternion;
     }
 
     public void saveAnimation()
