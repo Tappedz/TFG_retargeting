@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - legsSlider
+  - armsSlider
+  - ch1Toggle
+  - ch2Toggle
+  - ch3Toggle
+  - originalDummy
   layers:
   - Default
   - TransparentFX
