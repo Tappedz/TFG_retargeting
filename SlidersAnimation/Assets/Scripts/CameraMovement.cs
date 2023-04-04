@@ -10,7 +10,7 @@ public class CameraMovement : MonoBehaviour
     public float mouseSensitivity = 15f;
     public float xRot = 0f;
     public float yRot = 0f;
-    private bool camLocked;
+    public bool camLocked;
 
     // Start is called before the first frame update
     void Start()

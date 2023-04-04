@@ -32,6 +32,9 @@ public class Coordinates : MonoBehaviour
         this.rotY = obj.rotY;
         this.rotZ = obj.rotZ;
         this.rotW = obj.rotW;
+        this.posX = obj.posX;
+        this.posY = obj.posY;
+        this.posZ = obj.posZ;
     }
     override
     public string ToString()
