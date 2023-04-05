@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChildCoordinates : MonoBehaviour
 {
     public List<Coordinates> coordinates;
+    public Quaternion originalRot;
     public string path;
     public string nm;
 
@@ -20,6 +21,7 @@ public class ChildCoordinates : MonoBehaviour
     {
         this.path = obj.path;
         this.nm = obj.nm;
+        this.originalRot = obj.originalRot;
         this.coordinates = new List<Coordinates>();
         foreach (Coordinates coord in obj.coordinates)
         {

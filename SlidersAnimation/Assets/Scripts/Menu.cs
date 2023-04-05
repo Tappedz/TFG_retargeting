@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour
 {
     float timer = 0f;
 
-    public CameraMovement  camera;
+    public CameraMovement camera;
 
     public GameObject bigHeadDummy;
     public GameObject bigArmsDummy;
@@ -380,13 +380,21 @@ public class Menu : MonoBehaviour
                 aux.rotY = child.localRotation.y;
                 aux.rotZ = child.localRotation.z;
                 aux.rotW = child.localRotation.w;
-                aux.time = timer;
                 if (child.name.Equals("mixamorig:Hips"))
                 {
                     aux.posX = child.localPosition.x;
                     aux.posY = child.localPosition.y;
                     aux.posZ = child.localPosition.z;
-                }
+                } 
+                aux.time = timer;
+                /*if (child.name.Equals("mixamorig:Hips") || child.name.Equals("mixamorig:Spine") || child.name.Equals("mixamorig:Spine1") || child.name.Equals("mixamorig:Spine2") 
+                    || child.name.Equals("mixamorig:LeftShoulder") || child.name.Equals("mixamorig:Neck") || child.name.Equals("mixamorig:RightShoulder") || child.name.Equals("mixamorig:RightArm")
+                    || child.name.Equals("mixamorig:LeftArm") || child.name.Equals("mixamorig:LeftForeArm") || child.name.Equals("mixamorig:RightForeArm"))
+                {
+                    aux.posX = child.localPosition.x;
+                    aux.posY = child.localPosition.y;
+                    aux.posZ = child.localPosition.z;
+                }*/
                 /*if(childsData[j].nm.Equals("mixamorig:LeftHand"))
                 {
                     Debug.Log("Frame 0.2f: x="+ aux.x +", y="+ aux.y +", z="+ aux.z);
@@ -503,8 +511,7 @@ public class Menu : MonoBehaviour
         foreach (ChildCoordinates chCoords in cloneChildsData)
         {
             //Debug.Log(chCoords.path);
-            if (chCoords.nm.Equals("mixamorig:Hips"))
-            {
+            if (chCoords.nm.Equals("mixamorig:Hips")) {
                 List<Keyframe> ksX = new List<Keyframe>();
                 List<Keyframe> ksY = new List<Keyframe>();
                 List<Keyframe> ksZ = new List<Keyframe>();
@@ -514,10 +521,11 @@ public class Menu : MonoBehaviour
                 List<Keyframe> ksPosZ = new List<Keyframe>();
                 foreach (Coordinates chCoord in chCoords.coordinates)
                 {
-                    ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
-                    ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
-                    ksW.Add(new Keyframe(chCoord.time, chCoord.rotW));
+                    Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * chCoords.originalRot;
+                    ksX.Add(new Keyframe(chCoord.time, aux.x));
+                    ksY.Add(new Keyframe(chCoord.time, aux.y));
+                    ksZ.Add(new Keyframe(chCoord.time, aux.z));
+                    ksW.Add(new Keyframe(chCoord.time, aux.w));
                     ksPosX.Add(new Keyframe(chCoord.time, chCoord.posX));
                     ksPosY.Add(new Keyframe(chCoord.time, chCoord.posY));
                     ksPosZ.Add(new Keyframe(chCoord.time, chCoord.posZ));
@@ -549,10 +557,11 @@ public class Menu : MonoBehaviour
                 List<Keyframe> ksW = new List<Keyframe>();
                 foreach (Coordinates chCoord in chCoords.coordinates)
                 {
-                    ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
-                    ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
-                    ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
-                    ksW.Add(new Keyframe(chCoord.time, chCoord.rotW));
+                    Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * chCoords.originalRot;
+                    ksX.Add(new Keyframe(chCoord.time, aux.x));
+                    ksY.Add(new Keyframe(chCoord.time, aux.y));
+                    ksZ.Add(new Keyframe(chCoord.time, aux.z));
+                    ksW.Add(new Keyframe(chCoord.time, aux.w));
 
                     //cambiar implementacion --> childcoordinates contiene listas de coordenadas, de forma que tengo todas las coordenadas de la animacion de un objeto en la misma clase 
                     //ya esta cambiado
@@ -598,6 +607,28 @@ public class Menu : MonoBehaviour
                 }
             }
         }
+        //Debug.Log(cloneChildsData.Count);
+        getCloneOriginalRotations(cloneChilds, cloneChildsData);
         auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
+    }
+
+    public void getCloneOriginalRotations(Transform[] childs, List<ChildCoordinates> childCoordinatesList)
+    {
+        foreach(Transform child in childs)
+        {
+            foreach(ChildCoordinates chCoord in childCoordinatesList)
+            {
+                if (child.name.Equals(chCoord.nm))
+                {
+                    chCoord.originalRot = child.localRotation;
+                    Quaternion auxRot = child.localRotation * new Quaternion();
+                    //chCoord.originalCoords.rotX = child.localRotation.x;
+                    //chCoord.originalCoords.rotY = child.localRotation.y;
+                    //chCoord.originalCoords.rotZ = child.localRotation.z;
+                    //chCoord.originalCoords.rotW = child.localRotation.w;
+                    //Debug.Log(chCoord.originalCoords.rotX + "," + chCoord.originalCoords.rotY + "," + chCoord.originalCoords.rotZ);
+                }
+            }
+        }
     }
 }
