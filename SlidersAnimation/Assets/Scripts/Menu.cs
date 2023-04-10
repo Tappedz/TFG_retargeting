@@ -64,12 +64,12 @@ public class Menu : MonoBehaviour
         //armsSliderCustomListener.slider = armsSlider;
 
         legsSlider.value = 0;
-        legsSlider.minValue = -0.1f;
-        legsSlider.maxValue = 0.1f;
+        legsSlider.minValue = -0.25f;
+        legsSlider.maxValue = 0.25f;
 
         armsSlider.value = 0;
-        armsSlider.minValue = -0.1f;
-        armsSlider.maxValue = 0.1f;
+        armsSlider.minValue = -0.25f;
+        armsSlider.maxValue = 0.25f;
 
         ch1Toggle.onValueChanged.AddListener(delegate
         {
@@ -147,15 +147,17 @@ public class Menu : MonoBehaviour
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         /*
-                        Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
-                        Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
-                        Quaternion changeQuat = Quaternion.Euler(eulerAng);
-                        coord.x = changeQuat.x;
-                        coord.y = changeQuat.y;
-                        coord.z = changeQuat.z;
-                        coord.w = changeQuat.w;
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
+                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(-legsSlider.value * 100, 0f, 0f);
+                        coord.rotX = auxQuat.x;
+                        coord.rotY = auxQuat.y;
+                        coord.rotZ = auxQuat.z;
+                        coord.rotW = auxQuat.w;
+                        coordCount++;
                         */
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value;
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value * 1.5f;
+                        //coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX + legsSlider.value;
                         coordCount++;
                     }
                 }
@@ -164,15 +166,95 @@ public class Menu : MonoBehaviour
                     coordCount = 0;
                     foreach (Coordinates coord in coords.coordinates)
                     {
-                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        /*
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
                         //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + legsSlider.value * 100);
-                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
-                        //coord.x = changeQuat.x;
-                        //coord.y = changeQuat.y;
-                        //coord.z = changeQuat.z;
-                        //coord.w = changeQuat.w;
+                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(legsSlider.value * 100, 0f, 0f);
+                        coord.rotX = auxQuat.x;
+                        coord.rotY = auxQuat.y;
+                        coord.rotZ = auxQuat.z;
+                        coord.rotW = auxQuat.w;
+                        coordCount++;
+                        */
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value * 1.5F;
+                        //coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX + legsSlider.value;
+                        coordCount++;
+                    }
+                }
 
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value;
+                if (coords.nm.Equals("mixamorig:LeftLeg"))
+                {
+                    coordCount = 0;
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        /*
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
+                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(-legsSlider.value * 100, 0f, 0f);
+                        coord.rotX = auxQuat.x;
+                        coord.rotY = auxQuat.y;
+                        coord.rotZ = auxQuat.z;
+                        coord.rotW = auxQuat.w;
+                        coordCount++;
+                        */
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value / 2;
+                        coordCount++;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:RightLeg"))
+                {
+                    coordCount = 0;
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        /*
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + legsSlider.value * 100);
+                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(legsSlider.value * 100, 0f, 0f);
+                        coord.rotX = auxQuat.x;
+                        coord.rotY = auxQuat.y;
+                        coord.rotZ = auxQuat.z;
+                        coord.rotW = auxQuat.w;
+                        coordCount++;
+                        */
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value / 2;
+                        coordCount++;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:LeftFoot"))
+                {
+                    coordCount = 0;
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        /*
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
+                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(-legsSlider.value * 100, 0f, 0f);
+                        coord.rotX = auxQuat.x;
+                        coord.rotY = auxQuat.y;
+                        coord.rotZ = auxQuat.z;
+                        coord.rotW = auxQuat.w;
+                        coordCount++;
+                        */
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value / 2;
+                        coordCount++;
+                    }
+                }
+                if (coords.nm.Equals("mixamorig:RightFoot"))
+                {
+                    coordCount = 0;
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        /*
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ + legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + legsSlider.value * 100);
+                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(legsSlider.value * 100, 0f, 0f);
+                        coord.rotX = auxQuat.x;
+                        coord.rotY = auxQuat.y;
+                        coord.rotZ = auxQuat.z;
+                        coord.rotW = auxQuat.w;
+                        coordCount++;
+                        */
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value / 2;
                         coordCount++;
                     }
                 }
@@ -188,22 +270,23 @@ public class Menu : MonoBehaviour
             foreach (ChildCoordinates coords in cloneChildsData)
             {
                 int coordCount;
+                /*
                 if (coords.nm.Equals("mixamorig:LeftForeArm"))
                 {
-                coordCount = 0;
-                foreach (Coordinates coord in coords.coordinates)
-                {
-                    //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
-                    //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
-                    //Quaternion changeQuat = Quaternion.Euler(eulerAng);
-                    //coord.x = changeQuat.x;
-                    //coord.y = changeQuat.y;
-                    //coord.z = changeQuat.z;
-                    //coord.w = changeQuat.w;
+                    coordCount = 0;
+                    foreach (Coordinates coord in coords.coordinates)
+                    {
+                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
+                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
+                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
+                        //coord.x = changeQuat.x;
+                        //coord.y = changeQuat.y;
+                        //coord.z = changeQuat.z;
+                        //coord.w = changeQuat.w;
 
-                    coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
-                    coordCount++;
-                }
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        coordCount++;
+                    }
                 }
                 if (coords.nm.Equals("mixamorig:RightForeArm"))
                 {
@@ -218,10 +301,11 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
                         coordCount++;
                     }
                 }
+                */
                 if (coords.nm.Equals("mixamorig:LeftArm"))
                 {
                     coordCount = 0;
@@ -235,7 +319,9 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        coord.rotY = auxDataCopy[dataCount].coordinates[coordCount].rotY + armsSlider.value;
+
                         coordCount++;
                     }
                 }
@@ -252,7 +338,9 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
+                        coord.rotY = auxDataCopy[dataCount].coordinates[coordCount].rotY - armsSlider.value;
+
                         coordCount++;
                     }
                 }
@@ -521,11 +609,13 @@ public class Menu : MonoBehaviour
                 List<Keyframe> ksPosZ = new List<Keyframe>();
                 foreach (Coordinates chCoord in chCoords.coordinates)
                 {
-                    Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * chCoords.originalRot;
-                    ksX.Add(new Keyframe(chCoord.time, aux.x));
-                    ksY.Add(new Keyframe(chCoord.time, aux.y));
-                    ksZ.Add(new Keyframe(chCoord.time, aux.z));
-                    ksW.Add(new Keyframe(chCoord.time, aux.w));
+
+                    //Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * new Quaternion(chCoords.originalRot.rotX, chCoords.originalRot.rotY, chCoords.originalRot.rotZ, chCoords.originalRot.rotW);
+
+                    ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
+                    ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
+                    ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
+                    ksW.Add(new Keyframe(chCoord.time, chCoord.rotW));
                     ksPosX.Add(new Keyframe(chCoord.time, chCoord.posX));
                     ksPosY.Add(new Keyframe(chCoord.time, chCoord.posY));
                     ksPosZ.Add(new Keyframe(chCoord.time, chCoord.posZ));
@@ -557,11 +647,12 @@ public class Menu : MonoBehaviour
                 List<Keyframe> ksW = new List<Keyframe>();
                 foreach (Coordinates chCoord in chCoords.coordinates)
                 {
-                    Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * chCoords.originalRot;
-                    ksX.Add(new Keyframe(chCoord.time, aux.x));
-                    ksY.Add(new Keyframe(chCoord.time, aux.y));
-                    ksZ.Add(new Keyframe(chCoord.time, aux.z));
-                    ksW.Add(new Keyframe(chCoord.time, aux.w));
+                    //Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * new Quaternion(chCoords.originalRot.rotX, chCoords.originalRot.rotY, chCoords.originalRot.rotZ, chCoords.originalRot.rotW);
+
+                    ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
+                    ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
+                    ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
+                    ksW.Add(new Keyframe(chCoord.time, chCoord.rotW));
 
                     //cambiar implementacion --> childcoordinates contiene listas de coordenadas, de forma que tengo todas las coordenadas de la animacion de un objeto en la misma clase 
                     //ya esta cambiado
@@ -608,10 +699,11 @@ public class Menu : MonoBehaviour
             }
         }
         //Debug.Log(cloneChildsData.Count);
-        getCloneOriginalRotations(cloneChilds, cloneChildsData);
+        //getCloneOriginalRotations(cloneChilds, cloneChildsData);
         auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
     }
 
+    /* trying to fix T-pose original offset
     public void getCloneOriginalRotations(Transform[] childs, List<ChildCoordinates> childCoordinatesList)
     {
         foreach(Transform child in childs)
@@ -620,15 +712,13 @@ public class Menu : MonoBehaviour
             {
                 if (child.name.Equals(chCoord.nm))
                 {
-                    chCoord.originalRot = child.localRotation;
-                    Quaternion auxRot = child.localRotation * new Quaternion();
-                    //chCoord.originalCoords.rotX = child.localRotation.x;
-                    //chCoord.originalCoords.rotY = child.localRotation.y;
-                    //chCoord.originalCoords.rotZ = child.localRotation.z;
-                    //chCoord.originalCoords.rotW = child.localRotation.w;
-                    //Debug.Log(chCoord.originalCoords.rotX + "," + chCoord.originalCoords.rotY + "," + chCoord.originalCoords.rotZ);
+                    chCoord.originalRot.rotX = child.localRotation.x;
+                    chCoord.originalRot.rotY = child.localRotation.y;
+                    chCoord.originalRot.rotZ = child.localRotation.z;
+                    chCoord.originalRot.rotW = child.localRotation.w;
                 }
             }
         }
     }
+    */
 }
