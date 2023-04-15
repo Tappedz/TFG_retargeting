@@ -10,6 +10,10 @@ public class Menu : MonoBehaviour
 
     public CameraMovement camera;
 
+    Vector3[] vertex;
+    List<GameObject> collidersList = new List<GameObject>();
+    public GameObject vertexPoint;
+
     public GameObject bigHeadDummy;
     public GameObject bigArmsDummy;
     public GameObject bigLegsDummy;
@@ -80,12 +84,16 @@ public class Menu : MonoBehaviour
 
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
+                collidersList.Clear();
                 GameObject.Destroy(clone);
 
-                clone = Instantiate(bigHeadDummy, new Vector3(0, 0, 0), Quaternion.identity * Quaternion.Euler(0f, 180f, 0f));
+                clone = Instantiate(bigHeadDummy, new Vector3(0, 0, 0), Quaternion.identity);
                 cloneChilds = clone.GetComponentsInChildren<Transform>();
                 getLimbsPaths(cloneChilds, cloneChildsPaths);
                 adjustDataToClone();
+                createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
+
+                auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
                 animation2 = clone.GetComponent<Animation>();
                 saveAnimation();
@@ -101,12 +109,15 @@ public class Menu : MonoBehaviour
 
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
+                collidersList.Clear();
                 GameObject.Destroy(clone);
 
-                clone = Instantiate(bigArmsDummy, new Vector3(0, 0, 0), Quaternion.identity * Quaternion.Euler(0f, 180f, 0f));
+                clone = Instantiate(bigArmsDummy, new Vector3(0, 0, 0), Quaternion.identity);
                 cloneChilds = clone.GetComponentsInChildren<Transform>();
                 getLimbsPaths(cloneChilds, cloneChildsPaths);
                 adjustDataToClone();
+                createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
+
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
                 animation2 = clone.GetComponent<Animation>();
@@ -123,12 +134,15 @@ public class Menu : MonoBehaviour
 
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
+                collidersList.Clear();
                 GameObject.Destroy(clone);
 
-                clone = Instantiate(bigLegsDummy, new Vector3(0, 0.45f, 0), Quaternion.identity * Quaternion.Euler(0f, 180f, 0f));
+                clone = Instantiate(bigLegsDummy, new Vector3(0, 0.45f, 0), Quaternion.identity);
                 cloneChilds = clone.GetComponentsInChildren<Transform>();
                 getLimbsPaths(cloneChilds, cloneChildsPaths);
                 adjustDataToClone();
+                createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
+
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
                 animation2 = clone.GetComponent<Animation>();
                 saveAnimation();
@@ -354,6 +368,10 @@ public class Menu : MonoBehaviour
 
     public void Update()
     {
+        foreach (GameObject vertexPoint in collidersList)
+        {
+            vertexPoint.transform.rotation = vertexPoint.transform.parent.rotation;
+        }
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("animacion en clon");
@@ -703,6 +721,110 @@ public class Menu : MonoBehaviour
         auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
     }
 
+    public void createColliders(GameObject dummy, Mesh meshSurface)
+    {
+        vertex = meshSurface.vertices;
+        for (int i = 0; i < meshSurface.vertices.Length; i++)
+        {
+            GameObject child;
+            Transform parent;
+            if ((i >= 7994 && i < 8474) || (i >= 15193 && i < 15488)) //RIGHT FOOT
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot");
+                child = Instantiate(vertexPoint, Vector3.Scale(vertex[i], parent.localScale) + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if ((i >= 3138 && i < 3618) || (i >= 14769 && i < 14900) || (i >= 15489 && i < 15784)) //LEFT FOOT
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 8914 && i < 9623) //RIGHT UPPER LEG
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 2426 && i < 3135) //LEFT UPPER LEG
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            //RIGHT HAND
+            if ((i >= 7100 && i < 7230) || (i >= 12133 && i < 12330)) //HAND PALM
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 11013 && i < 11185) //MIDDLE
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandMiddle1/mixamorig:RightHandMiddle2/mixamorig:RightHandMiddle3");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 9893 && i < 10065) //PINKY
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandPinky1/mixamorig:RightHandPinky2/mixamorig:RightHandPinky3");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+
+            if (i >= 7230 && i < 7427) //THUMB
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandThumb1/mixamorig:RightHandThumb2/mixamorig:RightHandThumb3");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            //LEFT HAND
+            if ((i >= 5221 && i < 5350) || (i >= 14571 && i < 14767)) //HAND PALM
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 13451 && i < 13623) //MIDDLE
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandMiddle1/mixamorig:LeftHandMiddle2/mixamorig:LeftHandMiddle3");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 12331 && i < 12503) //PINKY
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandPinky1/mixamorig:LeftHandPinky2/mixamorig:LeftHandPinky3");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            if (i >= 5350 && i < 5548) //THUMB
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandThumb1/mixamorig:LeftHandThumb2/mixamorig:LeftHandThumb3");
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                collidersList.Add(child);
+            }
+            //HEAD
+            if (i >= 1911 && i < 2426) //HEAD
+            {
+                parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head");
+                child = Instantiate(vertexPoint, Vector3.Scale(vertex[i], parent.localScale) + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;;
+                collidersList.Add(child);
+            }
+        }
+    }
     /* trying to fix T-pose original offset
     public void getCloneOriginalRotations(Transform[] childs, List<ChildCoordinates> childCoordinatesList)
     {

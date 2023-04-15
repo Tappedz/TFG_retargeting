@@ -80,7 +80,6 @@
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
@@ -96,7 +95,6 @@
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Scripts\Coordinates.cs" />
-    <Compile Include="Assets\Scripts\CollidersController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMPro.cginc" />
