@@ -366,6 +366,7 @@
 "Assets/ImportedAssets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
 "Assets/Scripts/CameraMovement.cs"
 "Assets/Scripts/ChildCoordinates.cs"
+"Assets/Scripts/ColliderController.cs"
 "Assets/Scripts/Coordinates.cs"
 "Assets/Scripts/CustomSlider.cs"
 "Assets/Scripts/Menu.cs"

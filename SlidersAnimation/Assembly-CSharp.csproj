@@ -95,6 +95,7 @@
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\ImportedAssets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Scripts\Coordinates.cs" />
+    <Compile Include="Assets\Scripts\ColliderController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ImportedAssets\TextMesh Pro\Shaders\TMPro.cginc" />

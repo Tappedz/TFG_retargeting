@@ -278,6 +278,8 @@ MonoBehaviour:
   camera: {fileID: 963194229}
   vertexPoint: {fileID: 2899137636952443198, guid: 8488f2c9a89140f43a648ffb64530b29,
     type: 3}
+  dummyPrefab: {fileID: 5396787732267199184, guid: ecee3e93c77588f489ae1b801274745b,
+    type: 3}
   bigHeadDummy: {fileID: 7441253500038210492, guid: 6a477220e32081c4589cf83f67935d05,
     type: 3}
   bigArmsDummy: {fileID: 9102299775919834611, guid: 68c7da6ec692c6143bfa42212a3660a7,
@@ -1398,7 +1400,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 3, z: 9.26}
+  m_LocalPosition: {x: -35.9, y: 3, z: 9.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

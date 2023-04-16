@@ -14,6 +14,7 @@ public class Menu : MonoBehaviour
     List<GameObject> collidersList = new List<GameObject>();
     public GameObject vertexPoint;
 
+    public GameObject dummyPrefab;
     public GameObject bigHeadDummy;
     public GameObject bigArmsDummy;
     public GameObject bigLegsDummy;
@@ -87,11 +88,13 @@ public class Menu : MonoBehaviour
                 collidersList.Clear();
                 GameObject.Destroy(clone);
 
-                clone = Instantiate(bigHeadDummy, new Vector3(0, 0, 0), Quaternion.identity);
+                clone = Instantiate(dummyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 cloneChilds = clone.GetComponentsInChildren<Transform>();
                 getLimbsPaths(cloneChilds, cloneChildsPaths);
                 adjustDataToClone();
                 createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
+                Transform head = clone.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head");
+                head.localScale = new Vector3(3,3,3);
 
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
@@ -112,11 +115,15 @@ public class Menu : MonoBehaviour
                 collidersList.Clear();
                 GameObject.Destroy(clone);
 
-                clone = Instantiate(bigArmsDummy, new Vector3(0, 0, 0), Quaternion.identity);
+                clone = Instantiate(dummyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 cloneChilds = clone.GetComponentsInChildren<Transform>();
                 getLimbsPaths(cloneChilds, cloneChildsPaths);
                 adjustDataToClone();
                 createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
+                Transform leftSh = clone.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder");
+                Transform rightSh = clone.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder");
+                leftSh.localScale = new Vector3(2,2,2);
+                rightSh.localScale = new Vector3(2,2,2);
 
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
@@ -137,13 +144,18 @@ public class Menu : MonoBehaviour
                 collidersList.Clear();
                 GameObject.Destroy(clone);
 
-                clone = Instantiate(bigLegsDummy, new Vector3(0, 0.45f, 0), Quaternion.identity);
+                clone = Instantiate(dummyPrefab, new Vector3(0, 0.45f, 0), Quaternion.identity);
                 cloneChilds = clone.GetComponentsInChildren<Transform>();
                 getLimbsPaths(cloneChilds, cloneChildsPaths);
                 adjustDataToClone();
                 createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
-
+                Transform leftLeg = clone.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
+                Transform rightLeg = clone.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg");
+                leftLeg.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                rightLeg.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
+
                 animation2 = clone.GetComponent<Animation>();
                 saveAnimation();
             }
@@ -592,7 +604,7 @@ public class Menu : MonoBehaviour
         //Debug.Log("firstAnim.length en play: " + firstAnim.length);
         for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
         {
-            foreach (ChildCoordinates chCoord in dummyChildsData)
+            foreach (ChildCoordinates chCoord in cloneChildsData)
             {  
                 Transform child = clone.transform.Find(chCoord.path);
                 Quaternion newRotation = new Quaternion(chCoord.coordinates[i].rotX, chCoord.coordinates[i].rotY, chCoord.coordinates[i].rotZ, chCoord.coordinates[i].rotW);
@@ -733,6 +745,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot");
                 child = Instantiate(vertexPoint, Vector3.Scale(vertex[i], parent.localScale) + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if ((i >= 3138 && i < 3618) || (i >= 14769 && i < 14900) || (i >= 15489 && i < 15784)) //LEFT FOOT
@@ -740,6 +753,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 8914 && i < 9623) //RIGHT UPPER LEG
@@ -747,6 +761,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 2426 && i < 3135) //LEFT UPPER LEG
@@ -754,6 +769,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             //RIGHT HAND
@@ -762,6 +778,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 11013 && i < 11185) //MIDDLE
@@ -769,6 +786,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandMiddle1/mixamorig:RightHandMiddle2/mixamorig:RightHandMiddle3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 9893 && i < 10065) //PINKY
@@ -776,6 +794,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandPinky1/mixamorig:RightHandPinky2/mixamorig:RightHandPinky3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
 
@@ -784,6 +803,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandThumb1/mixamorig:RightHandThumb2/mixamorig:RightHandThumb3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             //LEFT HAND
@@ -792,6 +812,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 13451 && i < 13623) //MIDDLE
@@ -799,6 +820,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandMiddle1/mixamorig:LeftHandMiddle2/mixamorig:LeftHandMiddle3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 12331 && i < 12503) //PINKY
@@ -806,6 +828,7 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandPinky1/mixamorig:LeftHandPinky2/mixamorig:LeftHandPinky3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             if (i >= 5350 && i < 5548) //THUMB
@@ -813,14 +836,17 @@ public class Menu : MonoBehaviour
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandThumb1/mixamorig:LeftHandThumb2/mixamorig:LeftHandThumb3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 collidersList.Add(child);
             }
             //HEAD
             if (i >= 1911 && i < 2426) //HEAD
             {
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head");
-                child = Instantiate(vertexPoint, Vector3.Scale(vertex[i], parent.localScale) + dummy.transform.position, Quaternion.identity);
-                child.transform.parent = parent;;
+                child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
+                child.transform.parent = parent;
+                child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                //child.transform.position = new Vector3(child.transform.position.x * parent.localScale.x, child.transform.position.y * parent.localScale.y, child.transform.position.z * parent.localScale.z);
                 collidersList.Add(child);
             }
         }

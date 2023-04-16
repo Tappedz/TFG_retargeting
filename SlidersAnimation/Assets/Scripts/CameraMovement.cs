@@ -32,7 +32,7 @@ public class CameraMovement : MonoBehaviour
             Vector2 mouseInput = getMouseInput();
             yRot += mouseSensitivity * mouseInput.x;
             xRot -= mouseSensitivity * mouseInput.y;
-            transform.localEulerAngles = new Vector3(xRot, yRot, 0);
+            transform.localEulerAngles = new Vector3(xRot, yRot + 180, 0);
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
