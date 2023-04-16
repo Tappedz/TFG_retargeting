@@ -10,6 +10,19 @@ TagManager:
   - ch2Toggle
   - ch3Toggle
   - originalDummy
+  - LeftFoot
+  - RightFoot
+  - LeftUpperLeg
+  - RightUpperLeg
+  - LeftHandPalm
+  - RightHandPalm
+  - LeftHandMiddle
+  - RightHandMiddle
+  - LeftHandPinky
+  - RightHandPinky
+  - LeftHandThumb
+  - RightHandThumb
+  - Head
   layers:
   - Default
   - TransparentFX

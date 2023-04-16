@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2899137636952443192}
   - component: {fileID: 2899137636952443199}
   - component: {fileID: 18361993828340909}
+  - component: {fileID: -8794109478035303215}
   m_Layer: 0
   m_Name: Vertex Point
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2899137636952443198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0015, y: 0.0015, z: 0.0015}
+  m_LocalScale: {x: 0.0012, y: 0.0012, z: 0.0012}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -93,7 +94,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2899137636952443198}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -112,3 +113,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   good: {fileID: 2100000, guid: e96633e455215604988cf4d7f0277587, type: 2}
   bad: {fileID: 2100000, guid: 0cf91325d514420458713ad7ae3dc1f4, type: 2}
+--- !u!54 &-8794109478035303215
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899137636952443198}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

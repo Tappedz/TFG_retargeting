@@ -24,9 +24,13 @@ public class ColliderController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider col)
     {
-        changeColor(bad);
+        if (!col.tag.Equals(this.tag))
+        {
+            Debug.Log(this.transform.parent.name);
+            changeColor(bad);
+        }
     }
 
     void changeColor(Material mat)

@@ -395,7 +395,6 @@ public class Menu : MonoBehaviour
             if(ch1Toggle.isOn || ch2Toggle.isOn || ch3Toggle.isOn)
             {
                 animation2.Play();
-                Debug.Log(animation2.clip);
             }
         }
         if (!animationRecorded || !camera.camLocked)
@@ -746,6 +745,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, Vector3.Scale(vertex[i], parent.localScale) + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "RightFoot";
+
                 collidersList.Add(child);
             }
             if ((i >= 3138 && i < 3618) || (i >= 14769 && i < 14900) || (i >= 15489 && i < 15784)) //LEFT FOOT
@@ -754,6 +755,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "LeftFoot";
+
                 collidersList.Add(child);
             }
             if (i >= 8914 && i < 9623) //RIGHT UPPER LEG
@@ -762,6 +765,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "RightUpperLeg";
+
                 collidersList.Add(child);
             }
             if (i >= 2426 && i < 3135) //LEFT UPPER LEG
@@ -770,6 +775,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "LeftUpperLeg";
+
                 collidersList.Add(child);
             }
             //RIGHT HAND
@@ -779,6 +786,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "RightHandPalm";
+
                 collidersList.Add(child);
             }
             if (i >= 11013 && i < 11185) //MIDDLE
@@ -787,6 +796,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "RightHandMiddle";
+
                 collidersList.Add(child);
             }
             if (i >= 9893 && i < 10065) //PINKY
@@ -795,6 +806,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "RightHandPinky";
+
                 collidersList.Add(child);
             }
 
@@ -804,6 +817,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "RightHandThumb";
+
                 collidersList.Add(child);
             }
             //LEFT HAND
@@ -813,6 +828,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "LeftHandPalm";
+
                 collidersList.Add(child);
             }
             if (i >= 13451 && i < 13623) //MIDDLE
@@ -821,6 +838,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "LeftHandMiddle";
+
                 collidersList.Add(child);
             }
             if (i >= 12331 && i < 12503) //PINKY
@@ -829,6 +848,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "LeftHandPinky";
+
                 collidersList.Add(child);
             }
             if (i >= 5350 && i < 5548) //THUMB
@@ -837,6 +858,8 @@ public class Menu : MonoBehaviour
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
+                child.tag = "LeftHandThumb";
+
                 collidersList.Add(child);
             }
             //HEAD
@@ -847,6 +870,8 @@ public class Menu : MonoBehaviour
                 child.transform.parent = parent;
                 child.transform.localPosition = Vector3.Scale(child.transform.localPosition, parent.localScale);
                 //child.transform.position = new Vector3(child.transform.position.x * parent.localScale.x, child.transform.position.y * parent.localScale.y, child.transform.position.z * parent.localScale.z);
+                child.tag = "Head";
+
                 collidersList.Add(child);
             }
         }
