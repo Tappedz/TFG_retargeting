@@ -7,17 +7,17 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour
 {
     float timer = 0f;
+    int frames = 0;
 
     public CameraMovement camera;
 
     Vector3[] vertex;
     List<GameObject> collidersList = new List<GameObject>();
     public GameObject vertexPoint;
+    public Material good;
+    public Material bad;
 
     public GameObject dummyPrefab;
-    public GameObject bigHeadDummy;
-    public GameObject bigArmsDummy;
-    public GameObject bigLegsDummy;
 
     GameObject dummy;
     GameObject clone;
@@ -36,27 +36,37 @@ public class Menu : MonoBehaviour
 
     Slider legsSlider;
     Slider armsSlider;
+    Slider runByFrames;
     Toggle ch1Toggle;
     Toggle ch2Toggle;
     Toggle ch3Toggle;
+    Button runByButton;
+    Button resetColorButton;
+
+    public static List<Transform> collidedObjects = new List<Transform>();
 
     bool animationRecorded;
+    bool animationPlayed;
 
     public void Start()
     {
         dummy = GameObject.FindGameObjectWithTag("originalDummy");
         legsSlider = GameObject.FindGameObjectWithTag("legsSlider").GetComponent<Slider>();
         armsSlider = GameObject.FindGameObjectWithTag("armsSlider").GetComponent<Slider>();
+        runByFrames = GameObject.FindGameObjectWithTag("sliderByFrames").GetComponent<Slider>();
         ch1Toggle = GameObject.FindGameObjectWithTag("ch1Toggle").GetComponent<Toggle>();
         ch2Toggle = GameObject.FindGameObjectWithTag("ch2Toggle").GetComponent<Toggle>();
         ch3Toggle = GameObject.FindGameObjectWithTag("ch3Toggle").GetComponent<Toggle>();
+        runByButton = GameObject.FindGameObjectWithTag("runByButton").GetComponent<Button>();
+        resetColorButton = GameObject.FindGameObjectWithTag("resetColorButton").GetComponent<Button>();
         dummyChilds = dummy.GetComponentsInChildren<Transform>();
         getLimbsPaths(dummyChilds, dummyChildsData);
         animation1 = dummy.GetComponent<Animation>();
 
         animationRecorded = false;
-        ch1Toggle.isOn = false; 
-        ch2Toggle.isOn = false; 
+        animationPlayed = false;
+        ch1Toggle.isOn = false;
+        ch2Toggle.isOn = false;
         ch3Toggle.isOn = false;
 
         firstAnim.name = "mixamo";
@@ -76,9 +86,13 @@ public class Menu : MonoBehaviour
         armsSlider.minValue = -0.25f;
         armsSlider.maxValue = 0.25f;
 
+        runByFrames.value = 0;
+        runByFrames.minValue = 0;
+        runByFrames.wholeNumbers = true;
+
         ch1Toggle.onValueChanged.AddListener(delegate
         {
-            if(ch1Toggle.isOn)
+            if (ch1Toggle.isOn)
             {
                 ch2Toggle.isOn = false;
                 ch3Toggle.isOn = false;
@@ -94,7 +108,7 @@ public class Menu : MonoBehaviour
                 adjustDataToClone();
                 createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
                 Transform head = clone.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:Neck/mixamorig:Head");
-                head.localScale = new Vector3(3,3,3);
+                head.localScale = new Vector3(3, 3, 3);
 
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
@@ -122,8 +136,8 @@ public class Menu : MonoBehaviour
                 createColliders(clone, clone.transform.Find("Beta_Surface").GetComponent<SkinnedMeshRenderer>().sharedMesh);
                 Transform leftSh = clone.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder");
                 Transform rightSh = clone.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder");
-                leftSh.localScale = new Vector3(2,2,2);
-                rightSh.localScale = new Vector3(2,2,2);
+                leftSh.localScale = new Vector3(2, 2, 2);
+                rightSh.localScale = new Vector3(2, 2, 2);
 
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
@@ -153,7 +167,7 @@ public class Menu : MonoBehaviour
                 Transform rightLeg = clone.transform.Find("mixamorig:Hips/mixamorig:RightUpLeg");
                 leftLeg.localScale = new Vector3(1.5f, 1.5f, 1.5f);
                 rightLeg.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                
+
                 auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
 
                 animation2 = clone.GetComponent<Animation>();
@@ -287,7 +301,7 @@ public class Menu : MonoBehaviour
                 dataCount++;
             }
             saveAnimation();
-            
+
         });
 
         armsSlider.onValueChanged.AddListener(delegate
@@ -296,42 +310,6 @@ public class Menu : MonoBehaviour
             foreach (ChildCoordinates coords in cloneChildsData)
             {
                 int coordCount;
-                /*
-                if (coords.nm.Equals("mixamorig:LeftForeArm"))
-                {
-                    coordCount = 0;
-                    foreach (Coordinates coord in coords.coordinates)
-                    {
-                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
-                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - armsSlider.value * 100);
-                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
-                        //coord.x = changeQuat.x;
-                        //coord.y = changeQuat.y;
-                        //coord.z = changeQuat.z;
-                        //coord.w = changeQuat.w;
-
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
-                        coordCount++;
-                    }
-                }
-                if (coords.nm.Equals("mixamorig:RightForeArm"))
-                {
-                    coordCount = 0;
-                    foreach (Coordinates coord in coords.coordinates)
-                    {
-                        //Quaternion auxQuat = new Quaternion(coord.x, coord.y, coord.z, coord.w);
-                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z + armsSlider.value * 100);
-                        //Quaternion changeQuat = Quaternion.Euler(eulerAng);
-                        //coord.x = changeQuat.x;
-                        //coord.y = changeQuat.y;
-                        //coord.z = changeQuat.z;
-                        //coord.w = changeQuat.w;
-
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
-                        coordCount++;
-                    }
-                }
-                */
                 if (coords.nm.Equals("mixamorig:LeftArm"))
                 {
                     coordCount = 0;
@@ -374,8 +352,34 @@ public class Menu : MonoBehaviour
             }
             saveAnimation();
         });
-        //clon.SetActive(false);
-        //captureAnimation();
+        runByFrames.onValueChanged.AddListener(delegate
+        {
+            foreach (ChildCoordinates chCoord in cloneChildsData)
+            {
+                Transform child = clone.transform.Find(chCoord.path);
+                Quaternion newRotation = 
+                    new Quaternion(chCoord.coordinates[(int)runByFrames.value].rotX, chCoord.coordinates[(int)runByFrames.value].rotY, chCoord.coordinates[(int)runByFrames.value].rotZ, chCoord.coordinates[(int)runByFrames.value].rotW);
+                //Debug.Log(newRotation.eulerAngles);
+                child.Rotate(newRotation.eulerAngles, Space.Self);
+                child.localRotation = newRotation;
+                if (chCoord.nm.Equals("mixamorig:Hips"))
+                {
+                    child.Translate(new Vector3(chCoord.coordinates[(int)runByFrames.value].posX, chCoord.coordinates[(int)runByFrames.value].posY, chCoord.coordinates[(int)runByFrames.value].posZ), Space.Self);
+                    child.localPosition = new Vector3(chCoord.coordinates[(int)runByFrames.value].posX, chCoord.coordinates[(int)runByFrames.value].posY, chCoord.coordinates[(int)runByFrames.value].posZ);
+                }
+            }
+        });
+        runByButton.onClick.AddListener(delegate
+        {
+            playCustomAnimation((int)runByFrames.value);
+        });
+        resetColorButton.onClick.AddListener(delegate
+        {
+            foreach (Transform tr in collidedObjects)
+            {
+                changeColor(tr, good);
+            }
+        });
     }
 
     public void Update()
@@ -386,21 +390,23 @@ public class Menu : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("animacion en clon");
-            playCustomAnimation();
+            Debug.Log("Animation playing on clone");
+            playCustomAnimation(frames);
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            Debug.Log("animacion en clon");
-            if(ch1Toggle.isOn || ch2Toggle.isOn || ch3Toggle.isOn)
+            Debug.Log("Animation playing on clone");
+            if (ch1Toggle.isOn || ch2Toggle.isOn || ch3Toggle.isOn)
             {
                 animation2.Play();
+                animationPlayed = true;
             }
         }
         if (!animationRecorded || !camera.camLocked)
         {
             legsSlider.interactable = false;
             armsSlider.interactable = false;
+            runByFrames.interactable = false;
             ch1Toggle.interactable = false;
             ch2Toggle.interactable = false;
             ch3Toggle.interactable = false;
@@ -409,9 +415,19 @@ public class Menu : MonoBehaviour
         {
             legsSlider.interactable = true;
             armsSlider.interactable = true;
+            runByFrames.interactable = true;
             ch1Toggle.interactable = true;
             ch2Toggle.interactable = true;
             ch3Toggle.interactable = true;
+        }
+        if (animationPlayed && !animation2.isPlaying)
+        {
+            foreach (Transform tr in collidedObjects)
+            {
+                Debug.Log("Collision in " + tr.name);
+                changeColor(tr, bad);
+            }
+            animationPlayed = false;
         }
     }
 
@@ -431,12 +447,12 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void playAnimation()
+    void playAnimation()
     {
         animation1.Play();
     }
 
-    public void captureAnimation()
+    void captureAnimation()
     {
         playAnimation();
         Debug.Log("Comienza grabacion");
@@ -455,7 +471,7 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void getLimbsPaths(Transform[] childs, List<ChildCoordinates> childCoordinatesList)
+    void getLimbsPaths(Transform[] childs, List<ChildCoordinates> childCoordinatesList)
     {
         foreach (Transform child in childs)
         {
@@ -487,121 +503,47 @@ public class Menu : MonoBehaviour
     {
         //meter Time.deltaTime (referencia al tiempo real de ejecucion) --> ya esta con coroutine
         //Debug.Log("firstAnim.length en capture: "+firstAnim.length);
+
         for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
         {
             int j = 0;
-            foreach (Transform child in dummyChilds)
+            if (timer != 0)
             {
-                Coordinates aux = new Coordinates();
-                aux.rotX = child.localRotation.x;
-                aux.rotY = child.localRotation.y;
-                aux.rotZ = child.localRotation.z;
-                aux.rotW = child.localRotation.w;
-                if (child.name.Equals("mixamorig:Hips"))
+                foreach (Transform child in dummyChilds)
                 {
-                    aux.posX = child.localPosition.x;
-                    aux.posY = child.localPosition.y;
-                    aux.posZ = child.localPosition.z;
-                } 
-                aux.time = timer;
-                /*if (child.name.Equals("mixamorig:Hips") || child.name.Equals("mixamorig:Spine") || child.name.Equals("mixamorig:Spine1") || child.name.Equals("mixamorig:Spine2") 
-                    || child.name.Equals("mixamorig:LeftShoulder") || child.name.Equals("mixamorig:Neck") || child.name.Equals("mixamorig:RightShoulder") || child.name.Equals("mixamorig:RightArm")
-                    || child.name.Equals("mixamorig:LeftArm") || child.name.Equals("mixamorig:LeftForeArm") || child.name.Equals("mixamorig:RightForeArm"))
-                {
-                    aux.posX = child.localPosition.x;
-                    aux.posY = child.localPosition.y;
-                    aux.posZ = child.localPosition.z;
-                }*/
-                /*if(childsData[j].nm.Equals("mixamorig:LeftHand"))
-                {
-                    Debug.Log("Frame 0.2f: x="+ aux.x +", y="+ aux.y +", z="+ aux.z);
-                }*/
-                dummyChildsData[j].coordinates.Add(aux);
-                j++;
+                    Coordinates aux = new Coordinates();
+                    aux.rotX = child.localRotation.x;
+                    aux.rotY = child.localRotation.y;
+                    aux.rotZ = child.localRotation.z;
+                    aux.rotW = child.localRotation.w;
+                    if (child.name.Equals("mixamorig:Hips"))
+                    {
+                        aux.posX = child.localPosition.x;
+                        aux.posY = child.localPosition.y;
+                        aux.posZ = child.localPosition.z;
+                    }
+                    aux.time = timer;
+                    dummyChildsData[j].coordinates.Add(aux);
+                    j++;
+                }
+                frames++;
             }
             yield return new WaitForSeconds(0.05f);
         }
-        
+        runByFrames.maxValue = frames - 1;
         animationRecorded = true;
-        Debug.Log("Animacion grabada sobre maniqui objetivo");
-        //Debug.Log(timer);
-        //Debug.Log("Lista length:" + childsData[20].coordinates.Count);
-        /*
-        Transform leg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg");
-        Transform hips = clon.transform.Find("mixamorig:Hips");
-        Transform legleg = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg");
-        Transform foot = clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot");
-
-        //Debug.Log(childsData[4].coordinates[0].z);
-        //Debug.Log(clon.transform.Find("mixamorig:Hips/mixamorig:LeftUpLeg").name);
-        
-        Quaternion orRotation = new Quaternion(leg.rotation.x, leg.rotation.y, leg.rotation.z-0.1f, leg.rotation.w);
-        Quaternion or2Rotation = new Quaternion(hips.rotation.x, hips.rotation.y, hips.rotation.z, hips.rotation.w);
-        Quaternion newRotation = new Quaternion(childsData[4].coordinates[0].x, childsData[4].coordinates[0].y, childsData[4].coordinates[0].z-0.1f, childsData[4].coordinates[0].w);
-        Quaternion new2Rotation = new Quaternion(childsData[3].coordinates[0].x, childsData[3].coordinates[0].y, childsData[3].coordinates[0].z, childsData[3].coordinates[0].w);
-        Quaternion new3Rotation = new Quaternion(childsData[5].coordinates[0].x, childsData[5].coordinates[5].y, childsData[5].coordinates[0].z-0.1f, childsData[5].coordinates[0].w);
-        Quaternion new4Rotation = new Quaternion(childsData[6].coordinates[0].x, childsData[6].coordinates[6].y, childsData[6].coordinates[0].z-0.1f, childsData[6].coordinates[0].w);
-        leg.Rotate(newRotation.eulerAngles, Space.Self);
-        hips.Rotate(new2Rotation.eulerAngles, Space.Self);
-        legleg.Rotate(new3Rotation.eulerAngles, Space.Self);
-        foot.Rotate(new4Rotation.eulerAngles, Space.Self);
-        foreach (ChildCoordinates coords in childsData)
-        {
-            if (coords.nm.Equals("mixamorig:LeftUpLeg"))
-            {
-                foreach (Coordinates coord in coords.coordinates)
-                {
-                    coord.z = coord.z - 0.1f;
-                }
-            }
-        }
-        */
-        //leg.Rotate(newRotation,Space.Self);
-        //Debug.Log(newRotation.eulerAngles);
-        //leg.rotation = Quaternion.Lerp(leg.rotation,newRotation,1);
-        //leg.rotation = Quaternion.RotateTowards(leg.rotation, newRotation.normalized, Time.deltaTime);  
+        Debug.Log("Animation recorded");
     }
 
-    public void playCustomAnimation()
+    void playCustomAnimation(int fr)
     {
-        /*
-        int i = 0;
-        foreach(Transform child in childsClon)
-        {
-            Debug.Log("En objeto:  "+child.transform.name);
-            Debug.Log("En array de datos:  "+childsData[i].nm);
-            i++;
-        }
-        */
-        StartCoroutine(playFrames());
+        StartCoroutine(playFrames(fr));
     }
 
-    IEnumerator playFrames()
+    IEnumerator playFrames(int fr)
     {
-        /*
-        int i = 0;
-        for (timer = 0f; timer < 0.05f; timer += 0.05f)
-        {
-            int j = 0;
-            foreach (Transform child in childsClon)
-            {
-                if (i == 0)
-                {
-                    Debug.Log("En objeto:  " + child.name);
-                    Debug.Log("En array de datos:  " + childsData[j].nm);
-                }
-                Quaternion newRotation = new Quaternion(childsData[j].coordinates[i].x, childsData[j].coordinates[i].y, childsData[j].coordinates[i].z, childsData[j].coordinates[i].w);
-                child.Rotate(newRotation.eulerAngles, Space.Self);
-                child.rotation = newRotation;
-                j++;
-            }
-            i++;
-            yield return new WaitForSeconds(0.05f);
-        }  
-        */
-        int i = 0;
         //Debug.Log("firstAnim.length en play: " + firstAnim.length);
-        for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
+        for (int i = 0; i < fr; i++)
         {
             foreach (ChildCoordinates chCoord in cloneChildsData)
             {  
@@ -616,13 +558,12 @@ public class Menu : MonoBehaviour
                     child.localPosition = new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY, chCoord.coordinates[i].posZ);
                 }
             }
-            i++;
             yield return new WaitForSeconds(0.05f);
         }
         //Debug.Log("Veces: "+i);
     }
 
-    public void saveAnimation()
+    void saveAnimation()
     {
         animModified = new AnimationClip();
         foreach (ChildCoordinates chCoords in cloneChildsData)
@@ -704,7 +645,7 @@ public class Menu : MonoBehaviour
         //AssetDatabase.CreateAsset(animation2, "3DModels/animModified.anim");
     }
 
-    public void adjustDataToClone()
+    void adjustDataToClone()
     {
         bool firstCopied = false;
         foreach (ChildCoordinates coords in dummyChildsData)
@@ -732,7 +673,8 @@ public class Menu : MonoBehaviour
         auxDataCopy = cloneChildsData.ConvertAll(x => new ChildCoordinates(x));
     }
 
-    public void createColliders(GameObject dummy, Mesh meshSurface)
+    //parent localScale moves object to parent's local position
+    void createColliders(GameObject dummy, Mesh meshSurface)
     {
         vertex = meshSurface.vertices;
         for (int i = 0; i < meshSurface.vertices.Length; i++)
@@ -873,6 +815,23 @@ public class Menu : MonoBehaviour
                 child.tag = "Head";
 
                 collidersList.Add(child);
+            }
+        }
+    }
+
+    void changeColor(Transform parent, Material mat)
+    {
+        int childNum = parent.childCount;
+        for (int i = 0; i < childNum; i++)
+        {
+            Transform child = parent.GetChild(i);
+            if (child.name.Equals("Vertex Point(Clone)"))
+            {
+                MeshRenderer childMesh = child.GetComponent<MeshRenderer>();
+                Material[] materials = childMesh.materials;
+                materials[0] = mat;
+                childMesh.materials = materials;
+                childMesh.material = materials[0];
             }
         }
     }

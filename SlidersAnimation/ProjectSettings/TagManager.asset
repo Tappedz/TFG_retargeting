@@ -23,6 +23,9 @@ TagManager:
   - LeftHandThumb
   - RightHandThumb
   - Head
+  - sliderByFrames
+  - runByButton
+  - resetColorButton
   layers:
   - Default
   - TransparentFX
