@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
@@ -25,7 +26,11 @@ public class Menu : MonoBehaviour
     public Transform[] cloneChilds;
     Animation animation1;
     Animation animation2;
-    public AnimationClip firstAnim;
+
+    public AnimationClip originalAnim1;
+    public AnimationClip originalAnim2;
+
+    AnimationClip firstAnim;
     AnimationClip animModified;
 
     List<ChildCoordinates> dummyChildsData = new List<ChildCoordinates>();
@@ -37,9 +42,14 @@ public class Menu : MonoBehaviour
     Slider legsSlider;
     Slider armsSlider;
     Slider runByFrames;
+
     Toggle ch1Toggle;
     Toggle ch2Toggle;
     Toggle ch3Toggle;
+
+    Toggle anim1Toggle;
+    Toggle anim2Toggle;
+
     Button runByButton;
     Button resetColorButton;
 
@@ -51,12 +61,18 @@ public class Menu : MonoBehaviour
     public void Start()
     {
         dummy = GameObject.FindGameObjectWithTag("originalDummy");
+
         legsSlider = GameObject.FindGameObjectWithTag("legsSlider").GetComponent<Slider>();
         armsSlider = GameObject.FindGameObjectWithTag("armsSlider").GetComponent<Slider>();
         runByFrames = GameObject.FindGameObjectWithTag("sliderByFrames").GetComponent<Slider>();
+
         ch1Toggle = GameObject.FindGameObjectWithTag("ch1Toggle").GetComponent<Toggle>();
         ch2Toggle = GameObject.FindGameObjectWithTag("ch2Toggle").GetComponent<Toggle>();
         ch3Toggle = GameObject.FindGameObjectWithTag("ch3Toggle").GetComponent<Toggle>();
+
+        anim1Toggle = GameObject.FindGameObjectWithTag("anim1Toggle").GetComponent<Toggle>();
+        anim2Toggle = GameObject.FindGameObjectWithTag("anim2Toggle").GetComponent<Toggle>();
+
         runByButton = GameObject.FindGameObjectWithTag("runByButton").GetComponent<Button>();
         resetColorButton = GameObject.FindGameObjectWithTag("resetColorButton").GetComponent<Button>();
         dummyChilds = dummy.GetComponentsInChildren<Transform>();
@@ -65,11 +81,25 @@ public class Menu : MonoBehaviour
 
         animationRecorded = false;
         animationPlayed = false;
+
         ch1Toggle.isOn = false;
         ch2Toggle.isOn = false;
         ch3Toggle.isOn = false;
 
-        firstAnim.name = "mixamo";
+        if (SceneManager.GetActiveScene().name.Equals("MainAnim1"))
+        {
+            anim1Toggle.isOn = true;
+            anim2Toggle.isOn = false;
+            firstAnim = originalAnim1;
+            firstAnim.name = originalAnim1.name;
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("MainAnim2"))
+        {
+            anim1Toggle.isOn = false;
+            anim2Toggle.isOn = true;
+            firstAnim = originalAnim2;
+            firstAnim.name = originalAnim2.name;
+        }
         firstAnim.legacy = true;
         animation1.AddClip(firstAnim, firstAnim.name);
         animation1.clip = firstAnim;
@@ -90,6 +120,15 @@ public class Menu : MonoBehaviour
         runByFrames.minValue = 0;
         runByFrames.wholeNumbers = true;
 
+        anim1Toggle.onValueChanged.AddListener(delegate
+        {
+            SceneManager.LoadScene("MainAnim1");
+        });
+        anim2Toggle.onValueChanged.AddListener(delegate
+        {
+            SceneManager.LoadScene("MainAnim2");
+        });
+
         ch1Toggle.onValueChanged.AddListener(delegate
         {
             if (ch1Toggle.isOn)
@@ -100,6 +139,7 @@ public class Menu : MonoBehaviour
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
                 collidersList.Clear();
+                collidedObjects.Clear();
                 GameObject.Destroy(clone);
 
                 clone = Instantiate(dummyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -127,6 +167,7 @@ public class Menu : MonoBehaviour
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
                 collidersList.Clear();
+                collidedObjects.Clear();
                 GameObject.Destroy(clone);
 
                 clone = Instantiate(dummyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -156,6 +197,7 @@ public class Menu : MonoBehaviour
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
                 collidersList.Clear();
+                collidedObjects.Clear();
                 GameObject.Destroy(clone);
 
                 clone = Instantiate(dummyPrefab, new Vector3(0, 0.45f, 0), Quaternion.identity);
@@ -425,7 +467,7 @@ public class Menu : MonoBehaviour
             foreach (Transform tr in collidedObjects)
             {
                 Debug.Log("Collision in " + tr.name);
-                changeColor(tr, bad);
+                //changeColor(tr, bad);
             }
             animationPlayed = false;
         }
@@ -794,7 +836,7 @@ public class Menu : MonoBehaviour
 
                 collidersList.Add(child);
             }
-            if (i >= 5350 && i < 5548) //THUMB
+            if (i >= 5351 && i < 5548) //THUMB
             {
                 parent = dummy.transform.Find("mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandThumb1/mixamorig:LeftHandThumb2/mixamorig:LeftHandThumb3");
                 child = Instantiate(vertexPoint, vertex[i] + dummy.transform.position, Quaternion.identity);

@@ -26,6 +26,8 @@ TagManager:
   - sliderByFrames
   - runByButton
   - resetColorButton
+  - anim1Toggle
+  - anim2Toggle
   layers:
   - Default
   - TransparentFX
