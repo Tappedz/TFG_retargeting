@@ -287,7 +287,7 @@ MonoBehaviour:
   cloneChilds: []
   originalAnim1: {fileID: -203655887218126122, guid: 3b3b0f24971469c4abbb08e15685b619,
     type: 3}
-  originalAnim2: {fileID: -203655887218126122, guid: d529b16fd615cd84180d13ec60b3802d,
+  originalAnim2: {fileID: -203655887218126122, guid: 2911a7e6e4b8a064da48c4ff885f9190,
     type: 3}
 --- !u!1 &76033886
 GameObject:
@@ -1259,7 +1259,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Jump
+  m_Text: Anim 1
 --- !u!222 &359235253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1481,7 +1481,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Front Flip
+  m_Text: Anim 2
 --- !u!222 &437786446
 CanvasRenderer:
   m_ObjectHideFlags: 0

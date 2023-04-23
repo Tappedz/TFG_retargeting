@@ -113,8 +113,8 @@ public class Menu : MonoBehaviour
         legsSlider.maxValue = 0.25f;
 
         armsSlider.value = 0;
-        armsSlider.minValue = -0.25f;
-        armsSlider.maxValue = 0.25f;
+        armsSlider.minValue = -0.3f;
+        armsSlider.maxValue = 0.3f;
 
         runByFrames.value = 0;
         runByFrames.minValue = 0;
@@ -135,6 +135,9 @@ public class Menu : MonoBehaviour
             {
                 ch2Toggle.isOn = false;
                 ch3Toggle.isOn = false;
+
+                legsSlider.value = 0;
+                armsSlider.value = 0;
 
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
@@ -163,6 +166,9 @@ public class Menu : MonoBehaviour
             {
                 ch1Toggle.isOn = false;
                 ch3Toggle.isOn = false;
+
+                legsSlider.value = 0;
+                armsSlider.value = 0;
 
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
@@ -193,6 +199,9 @@ public class Menu : MonoBehaviour
             {
                 ch1Toggle.isOn = false;
                 ch2Toggle.isOn = false;
+
+                legsSlider.value = 0;
+                armsSlider.value = 0;
 
                 cloneChildsPaths.Clear();
                 cloneChildsData.Clear();
@@ -238,8 +247,8 @@ public class Menu : MonoBehaviour
                         coord.rotW = auxQuat.w;
                         coordCount++;
                         */
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value * 1.5f;
-                        //coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX + legsSlider.value;
+                        //coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value * 1.5f;
+                        coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX - legsSlider.value;
                         coordCount++;
                     }
                 }
@@ -258,8 +267,8 @@ public class Menu : MonoBehaviour
                         coord.rotW = auxQuat.w;
                         coordCount++;
                         */
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value * 1.5F;
-                        //coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX + legsSlider.value;
+                        //coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value * 1.5F;
+                        coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX + legsSlider.value;
                         coordCount++;
                     }
                 }
@@ -365,8 +374,9 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
-                        coord.rotY = auxDataCopy[dataCount].coordinates[coordCount].rotY + armsSlider.value;
+                        //coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ + armsSlider.value;
+                        //coord.rotY = auxDataCopy[dataCount].coordinates[coordCount].rotY + armsSlider.value;
+                        coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX - armsSlider.value;
 
                         coordCount++;
                     }
@@ -384,8 +394,9 @@ public class Menu : MonoBehaviour
                         //coord.z = changeQuat.z;
                         //coord.w = changeQuat.w;
 
-                        coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
-                        coord.rotY = auxDataCopy[dataCount].coordinates[coordCount].rotY - armsSlider.value;
+                        //coord.rotZ = auxDataCopy[dataCount].coordinates[coordCount].rotZ - armsSlider.value;
+                        //coord.rotY = auxDataCopy[dataCount].coordinates[coordCount].rotY - armsSlider.value;
+                        coord.rotX = auxDataCopy[dataCount].coordinates[coordCount].rotX - armsSlider.value;
 
                         coordCount++;
                     }
