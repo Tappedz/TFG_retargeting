@@ -557,7 +557,7 @@ public class Menu : MonoBehaviour
         //meter Time.deltaTime (referencia al tiempo real de ejecucion) --> ya esta con coroutine
         //Debug.Log("firstAnim.length en capture: "+firstAnim.length);
 
-        for (timer = 0f; timer < firstAnim.length; timer += 0.05f)
+        for (timer = 0f; timer < firstAnim.length; timer += 0.02f)
         {
             int j = 0;
             if (timer != 0)
@@ -581,7 +581,7 @@ public class Menu : MonoBehaviour
                 }
                 frames++;
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.02f);
         }
         runByFrames.maxValue = frames - 1;
         animationRecorded = true;
@@ -611,7 +611,7 @@ public class Menu : MonoBehaviour
                     child.localPosition = new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY, chCoord.coordinates[i].posZ);
                 }
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.02f);
         }
         //Debug.Log("Veces: "+i);
     }
@@ -632,9 +632,6 @@ public class Menu : MonoBehaviour
                 List<Keyframe> ksPosZ = new List<Keyframe>();
                 foreach (Coordinates chCoord in chCoords.coordinates)
                 {
-
-                    //Quaternion aux = new Quaternion(chCoord.rotX, chCoord.rotY, chCoord.rotZ, chCoord.rotW) * new Quaternion(chCoords.originalRot.rotX, chCoords.originalRot.rotY, chCoords.originalRot.rotZ, chCoords.originalRot.rotW);
-
                     ksX.Add(new Keyframe(chCoord.time, chCoord.rotX));
                     ksY.Add(new Keyframe(chCoord.time, chCoord.rotY));
                     ksZ.Add(new Keyframe(chCoord.time, chCoord.rotZ));
@@ -643,8 +640,6 @@ public class Menu : MonoBehaviour
                     ksPosY.Add(new Keyframe(chCoord.time, chCoord.posY));
                     ksPosZ.Add(new Keyframe(chCoord.time, chCoord.posZ));
 
-                    //cambiar implementacion --> childcoordinates contiene listas de coordenadas, de forma que tengo todas las coordenadas de la animacion de un objeto en la misma clase 
-                    //ya esta cambiado
                 }
                 AnimationCurve curveX = new AnimationCurve(ksX.ToArray());
                 AnimationCurve curveY = new AnimationCurve(ksY.ToArray());
@@ -653,7 +648,7 @@ public class Menu : MonoBehaviour
                 AnimationCurve curvePosX = new AnimationCurve(ksPosX.ToArray());
                 AnimationCurve curvePosY = new AnimationCurve(ksPosY.ToArray());
                 AnimationCurve curvePosZ = new AnimationCurve(ksPosZ.ToArray());
-                //Debug.Log(chCoords.path + "," + chCoords.nm);
+
                 animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.x", curveX);
                 animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.y", curveY);
                 animModified.SetCurve(chCoords.path, typeof(Transform), "localRotation.z", curveZ);
