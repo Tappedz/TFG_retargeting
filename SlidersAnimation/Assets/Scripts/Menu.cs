@@ -595,25 +595,26 @@ public class Menu : MonoBehaviour
 
     IEnumerator playFrames(int fr)
     {
-        //Debug.Log("firstAnim.length en play: " + firstAnim.length);
         for (int i = 0; i < fr; i++)
         {
             foreach (ChildCoordinates chCoord in cloneChildsData)
             {  
                 Transform child = clone.transform.Find(chCoord.path);
-                Quaternion newRotation = new Quaternion(chCoord.coordinates[i].rotX, chCoord.coordinates[i].rotY, chCoord.coordinates[i].rotZ, chCoord.coordinates[i].rotW);
-                //Debug.Log(newRotation.eulerAngles);
+                Quaternion newRotation = new Quaternion(chCoord.coordinates[i].rotX, chCoord.coordinates[i].rotY,
+                 chCoord.coordinates[i].rotZ, chCoord.coordinates[i].rotW);
+
                 child.Rotate(newRotation.eulerAngles, Space.Self);
                 child.localRotation = newRotation;
                 if (chCoord.nm.Equals("mixamorig:Hips"))
                 {
-                    child.Translate(new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY, chCoord.coordinates[i].posZ), Space.Self);
-                    child.localPosition = new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY, chCoord.coordinates[i].posZ);
+                    child.Translate(new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY,
+                     chCoord.coordinates[i].posZ), Space.Self);
+                    child.localPosition = new Vector3(chCoord.coordinates[i].posX, chCoord.coordinates[i].posY,
+                     chCoord.coordinates[i].posZ);
                 }
             }
             yield return new WaitForSeconds(0.02f);
         }
-        //Debug.Log("Veces: "+i);
     }
 
     void saveAnimation()
