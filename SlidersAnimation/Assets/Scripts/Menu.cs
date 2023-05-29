@@ -238,9 +238,10 @@ public class Menu : MonoBehaviour
                     foreach (Coordinates coord in coords.coordinates)
                     {
                         /*
-                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY, auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
-                        //Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
-                        //Quaternion changeQuat = auxQuat * Quaternion.Euler(-legsSlider.value * 100, 0f, 0f);
+                        Quaternion auxQuat = new Quaternion(auxDataCopy[dataCount].coordinates[coordCount].rotX, auxDataCopy[dataCount].coordinates[coordCount].rotY,
+                         auxDataCopy[dataCount].coordinates[coordCount].rotZ - legsSlider.value, auxDataCopy[dataCount].coordinates[coordCount].rotW);
+                        Vector3 eulerAng = new Vector3(auxQuat.eulerAngles.x, auxQuat.eulerAngles.y, auxQuat.eulerAngles.z - legsSlider.value*100);
+                        Quaternion changeQuat = auxQuat * Quaternion.Euler(-legsSlider.value * 100, 0f, 0f);
                         coord.rotX = auxQuat.x;
                         coord.rotY = auxQuat.y;
                         coord.rotZ = auxQuat.z;
