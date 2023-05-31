@@ -621,6 +621,7 @@ public class Menu : MonoBehaviour
     void saveAnimation()
     {
         animModified = new AnimationClip();
+        animModified.legacy = true;
         foreach (ChildCoordinates chCoords in cloneChildsData)
         {
             //Debug.Log(chCoords.path);
@@ -689,7 +690,6 @@ public class Menu : MonoBehaviour
             } 
         }
         animModified.name = "modified";
-        animModified.legacy = true;
         animation2.AddClip(animModified, animModified.name);
         animation2.clip = animModified;
         //AssetDatabase.CreateAsset(animation2, "3DModels/animModified.anim");
