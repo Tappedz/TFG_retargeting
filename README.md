@@ -3,7 +3,7 @@ Proyecto final de grado para el grado de Ingeniería Informática en la Universi
 ## Título
 Desarrollo de herramienta software para la edición de animaciones para retargeting de personajes.
 ## Memoria
-[PDF Memoria](Recursos/TFG_adrian_guiral_mallart)
+[PDF Memoria](Recursos/TFG_adrian_guiral_mallart.pdf)
 ### Introducción
 El ‘animation retargeting’ o reorientación de animaciones es una función que permite la reutilización de animaciones entre personajes que utilizan el mismo esqueleto, pero no comparten las mismas dimensiones [1]. Esta técnica es muy útil debido a que reduce la carga de trabajo del animador enormemente y solventa el problema de animar la misma animación para cada personaje nuevo. Se trata de una técnica muy común y extendida principalmente dentro de la industria del videojuego, no obstante, también está presente en la industria del cine para ajustar animaciones a avatares 3D utilizados en la producción tanto de películas como series. Para facilitar este trabajo, se va a utilizar el motor de desarrollo Unity 3D, uno de los motores más conocidos a nivel mundial y con mayor disponibilidad, teniendo a su disposición una amplia lista de herramientas y versiones. 
 ### Objetivos
